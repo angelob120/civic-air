@@ -21,7 +21,8 @@ const ROUTES = {
   '/alerts': 'alerts.html',
   '/flight-history': 'flight-history.html',
   '/data-request': 'data-request.html',
-  '/privacy-audit': 'privacy-audit.html'
+  '/privacy-audit': 'privacy-audit.html',
+  '/qr': 'qr.html'
 };
 
 const TYPES = {
@@ -29,6 +30,7 @@ const TYPES = {
   '.js': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml',
+  '.png': 'image/png',
   '.woff2': 'font/woff2',
   '.json': 'application/json'
 };

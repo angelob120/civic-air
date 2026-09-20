@@ -20,6 +20,7 @@ represented, and nothing here is a procurement quote or a compliance guarantee.
 | `/flight-history` | Flight History | Filterable flight log with retention state and scrubbed records |
 | `/data-request` | Authorized Data Request | The narrow form a public safety agency fills in to request specific records |
 | `/privacy-audit` | Privacy and Audit Center | Retention schedule, role based access, transparency reporting, and the audit trail |
+| `/qr` | Scan poster | A QR code to the live demo, for a table or a slide |
 
 The deliberate part of the demo is the last two screens. The Command Center will
 refuse to show identifying details to an Operations Lead and say why, and the only
@@ -79,6 +80,19 @@ node build.mjs /path/to/export.html
 
 The build strips em dashes, en dashes, smart quotes and emoji from every page as it
 writes, so none can reach the site from an export.
+
+## The QR code
+
+`public/qr.svg` and `public/qr.png` encode the live URL at error correction
+level H, so the code still scans off a projected slide or a scuffed printout.
+`/qr` is a poster page around it for a table or a slide, and it prints black on
+white. Both files were decoded back to the URL before being committed.
+
+Regenerate them if the URL ever changes:
+
+```bash
+python3 -c "import segno; segno.make('https://civic-air-production.up.railway.app', error='h').save('public/qr.svg', scale=10, border=4, dark='#0A0F1A', light='#FFFFFF')"
+```
 
 ## Deploying
 

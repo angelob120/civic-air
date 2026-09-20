@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Civic Air - Scan to open</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --navy-950: #0A0F1A;
+    --navy-900: #0D1526;
+    --navy-700: #1B2A47;
+    --ink-0: #EDF1F7;
+    --ink-500: #8296B4;
+    --cyan: #2FC4DE;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--navy-950);
+    color: var(--ink-0);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+  .card {
+    background: var(--navy-900);
+    border: 1px solid var(--navy-700);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 14px;
+  }
+  h1 { font-size: 27px; line-height: 1.2; margin-bottom: 10px; }
+  p { color: var(--ink-500); font-size: 14.5px; line-height: 1.6; }
+  .qr {
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    margin: 28px auto 20px auto;
+    width: min(300px, 78vw);
+  }
+  .qr img { width: 100%; display: block; }
+  .url {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--cyan);
+    word-break: break-all;
+    display: inline-block;
+    padding: 10px 14px;
+    border: 1px solid var(--navy-700);
+    border-radius: 9px;
+  }
+  .note {
+    margin-top: 22px;
+    font-size: 12px;
+    color: var(--ink-500);
+    border-top: 1px solid var(--navy-700);
+    padding-top: 18px;
+  }
+  /* The poster is printed for a table, so it goes to paper as black on white. */
+  @media print {
+    body { background: #fff; color: #000; padding: 0; }
+    .card { border: none; background: #fff; }
+    .eyebrow, .url { color: #000; }
+    p, .note { color: #333; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Civic Air - hackathon demo</div>
+    <h1>Scan to open the live demo</h1>
+    <p>Accountable low-altitude drone coordination for cities. Works on your phone.</p>
+    <div class="qr">
+      <img src="/qr.svg" alt="QR code linking to the Civic Air demo" width="300" height="300">
+    </div>
+    <a class="url" href="https://civic-air-production.up.railway.app">civic-air-production.up.railway.app</a>
+    <div class="note">All drones, alerts, agencies and requests in the demo are simulated.</div>
+  </div>
+</body>
+</html>
