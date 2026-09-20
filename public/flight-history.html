@@ -7,6 +7,7 @@
 <title>Civic Air - Flight History</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/responsive.css">
 <style>/* cyrillic-ext */
 @font-face {
   font-family: 'IBM Plex Mono';
@@ -416,9 +417,9 @@
 <body>
 <div id="dc-root"></div>
 <template id="dc-template">
-<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+<div class="ca-shell" style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
 
-  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+  <nav class="ca-nav" style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
     <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
       <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
@@ -438,7 +439,7 @@
   </nav>
 
   <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
-    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+    <div class="ca-topbar" style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
       <div class="row" style="gap:18px;"><div style="font-weight:700;font-size:14px;">Northbridge</div><div class="mono" style="font-size:12.5px;color:var(--ink-500);">Flight History</div></div>
       <div class="row" style="gap:8px;">
         <div style="width:26px;height:26px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;">MA</div>
@@ -453,7 +454,7 @@
       </div>
 
       <div class="card" style="padding:18px;">
-        <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:end;">
+        <div class="ca-grid" style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:end;">
           <div class="field"><label>Date range</label>
             <sc-raw-select value="{{dateFilter}}" sc-camel-on-change="{{onDate}}">
               <sc-for list="{{dateOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
@@ -509,7 +510,7 @@
             </div>
           </sc-if>
           <sc-if value="{{showTable}}" hint-placeholder-val="{{true}}">
-            <sc-raw-table>
+            <sc-raw-table class="ca-table">
               <sc-raw-thead><sc-raw-tr><sc-raw-th>Flight</sc-raw-th><sc-raw-th>Drone</sc-raw-th><sc-raw-th>Date</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Alert type</sc-raw-th><sc-raw-th>Zone</sc-raw-th><sc-raw-th>Retention</sc-raw-th></sc-raw-tr></sc-raw-thead>
               <sc-raw-tbody>
                 <sc-for list="{{flights}}" as="f" hint-placeholder-count="10">
@@ -529,7 +530,7 @@
         </div>
 
         <!-- Playback -->
-        <div class="card" style="width:340px;flex-shrink:0;padding:18px;position:sticky;top:88px;">
+        <div class="ca-side card" style="width:340px;flex-shrink:0;padding:18px;position:sticky;top:88px;">
           <div class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:10px;">Route playback</div>
           <sc-if value="{{hasSelection}}" hint-placeholder-val="{{false}}">
             <div class="mono" style="font-size:14px;font-weight:700;margin-bottom:2px;">{{sel.id}}</div>

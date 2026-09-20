@@ -53,6 +53,71 @@ function cleanText(s) {
     .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{2B00}-\u{2BFF}]/gu, '');
 }
 
+/*
+ * The export styles every element inline, which a stylesheet cannot override
+ * without `!important` on a selector that names the inline value. Matching on
+ * those values directly would be unreadable and would break silently the first
+ * time a padding changed, so the layout containers are given class hooks here
+ * instead and public/responsive.css addresses those.
+ *
+ * Every rule asserts how many elements it expects to tag. A new export that
+ * reshapes a screen then fails the build rather than shipping a phone layout
+ * that nobody looked at.
+ */
+const LAYOUT_HOOKS = [
+  // The left rail on the five dashboard screens. Becomes a scrolling top strip.
+  { cls: 'ca-nav', min: 0, test: (tag, a) => tag === 'nav' && a.includes('width:240px') },
+  // Sticky detail columns beside a list: 380px, 420px and 340px across screens.
+  { cls: 'ca-side', min: 0, test: (tag, a) => tag !== 'nav' && /width:\d{3}px;flex-shrink:0/.test(a) },
+  // The page shell, a row of rail plus content. Becomes a column.
+  { cls: 'ca-shell', min: 0, test: (tag, a) => a.includes('min-height:100vh') && a.includes('flex-direction:row') },
+  // The fixed-height bar above each dashboard.
+  { cls: 'ca-topbar', min: 0, test: (tag, a) => a.includes('height:64px') && a.includes('flex-shrink:0') },
+  // Every multi-column grid. Collapses to one or two columns.
+  { cls: 'ca-grid', min: 0, test: (tag, a) => a.includes('grid-template-columns:') },
+  // Centred content wrappers on the landing page.
+  { cls: 'ca-wrap', min: 0, test: (tag, a) => /max-width:(680|760|920|1080)px/.test(a) },
+  // Anything with the 40px desktop gutter, so the side padding can shrink.
+  { cls: 'ca-gutter', min: 0, test: (tag, a) => /padding:[^;"]*\b40px/.test(a) },
+  { cls: 'ca-hero', min: 0, test: (tag, a) => a.includes('padding:100px 40px 72px 40px') },
+  { cls: 'ca-sitehead', min: 0, test: (tag, a) => a.includes('padding:20px 40px') && a.includes('justify-content:space-between') },
+  // The map panel, which is 560px tall and much too deep on a phone.
+  { cls: 'ca-map', min: 0, test: (tag, a) => a.includes('height:560px') },
+  // The three controls floating over the map. On a phone they cover most of it,
+  // so they are lifted out of the overlay and stacked underneath instead.
+  { cls: 'ca-overlay', min: 0, test: (tag, a) => a.includes('position:absolute') && (a.includes('top:14px') || a.includes('bottom:14px')) },
+  // Tables get a horizontal scroller rather than being crushed.
+  { cls: 'ca-table', min: 0, test: (tag) => tag === 'sc-raw-table' }
+];
+
+const OPEN_TAG = /<([a-z][\w-]*)((?:"[^"]*"|'[^']*'|[^>"'])*)>/gi;
+
+function addClass(html, test, cls) {
+  let count = 0;
+  const out = html.replace(OPEN_TAG, (whole, tag, attrs) => {
+    const style = /style="([^"]*)"/.exec(attrs);
+    if (!test(tag.toLowerCase(), (style ? style[1] : '') + ' ' + attrs)) return whole;
+    count++;
+    if (/\sclass="/.test(attrs)) return `<${tag}${attrs.replace(/\sclass="/, ` class="${cls} `)}>`;
+    return `<${tag} class="${cls}"${attrs}>`;
+  });
+  return { html: out, count };
+}
+
+function tagLayout(html, screen) {
+  let total = 0;
+  for (const hook of LAYOUT_HOOKS) {
+    const res = addClass(html, hook.test, hook.cls);
+    if (res.count < hook.min) {
+      throw new Error(`${screen}: expected at least ${hook.min} ${hook.cls} elements, tagged ${res.count}`);
+    }
+    html = res.html;
+    total += res.count;
+  }
+  if (total === 0) throw new Error(`${screen}: tagged no layout containers`);
+  return html;
+}
+
 const outer = fs.readFileSync(source, 'utf8');
 const pages = Object.values(manifestOf(outer)).map((e) => decode(e).toString('utf8'));
 if (pages.length !== 6) throw new Error(`expected 6 screens, found ${pages.length}`);
@@ -84,7 +149,7 @@ for (const page of pages) {
   const target = ROUTES[routeKeyFor(title)];
   if (!target) throw new Error(`no route for screen "${title}"`);
 
-  let out = template({ title, helmet, body, logic });
+  let out = template({ title, helmet, body: tagLayout(body, title), logic });
   for (const [from, to] of Object.entries(ROUTES)) {
     out = out.split(`href="${from}"`).join(`href="${to.route}"`);
   }
@@ -112,7 +177,7 @@ function template({ title, helmet, body, logic }) {
 <meta name="description" content="Civic Air is a prototype for accountable low-altitude drone coordination in cities. All data shown is simulated.">
 <title>${title}</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/motion.css">\n<link rel="stylesheet" href="/responsive.css">
 ${helmet.trim()}
 </head>
 <body>

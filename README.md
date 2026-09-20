@@ -55,6 +55,17 @@ entirely off the classes the export already emits so a regenerated page keeps
 them. Nothing in it animates layout, and the whole file switches off under
 `prefers-reduced-motion`.
 
+`public/responsive.css` makes the screens work on a phone. They were drawn at
+1440x900 with every element styled inline, which a stylesheet can only override
+with `!important` on a selector naming the inline value. Rather than match those
+values, `build.mjs` tags the layout containers with `ca-*` classes and the
+stylesheet addresses those, so changing a padding in the design cannot silently
+break the phone layout: the build asserts the hooks still land. Below 1100px the
+sticky detail columns stack, below 780px the left rail becomes a scrolling top
+strip and the map controls come out of the overlay, and below 560px the grids
+collapse to one column. Verified with no horizontal overflow at 320, 375, 414,
+768, 1024 and 1440.
+
 `server.mjs` is a static file server on `node:http`. Routes are clean paths rather
 than `.html` so a link copied out of the address bar reads well in a demo. Paths
 outside `public/` are refused, and `/healthz` answers the platform health check.

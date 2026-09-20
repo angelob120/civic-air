@@ -7,6 +7,7 @@
 <title>Civic Air - Command Center</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/responsive.css">
 <style>/* cyrillic-ext */
 @font-face {
   font-family: 'IBM Plex Mono';
@@ -418,10 +419,10 @@
 <body>
 <div id="dc-root"></div>
 <template id="dc-template">
-<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+<div class="ca-shell" style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
 
   <!-- LEFT NAV -->
-  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+  <nav class="ca-nav" style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
     <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
       <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
@@ -451,7 +452,7 @@
   <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
 
     <!-- TOP BAR -->
-    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+    <div class="ca-topbar" style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
       <div class="row" style="gap:18px;">
         <div style="font-weight:700;font-size:14px;">Northbridge</div>
         <div class="mono" style="font-size:12.5px;color:var(--ink-500);">{{clock}}</div>
@@ -488,7 +489,7 @@
         </div>
 
         <div style="position:relative;background:var(--navy-950);">
-          <svg sc-camel-view-box="{{viewBox}}" style="width:100%;height:560px;display:block;">
+          <svg class="ca-map" sc-camel-view-box="{{viewBox}}" style="width:100%;height:560px;display:block;">
             <defs>
               <pattern id="grid" width="40" height="40" sc-camel-pattern-units="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#131F38" stroke-width="1"></path>
@@ -543,7 +544,7 @@
           </svg>
 
           <!-- layer control -->
-          <div class="card" style="position:absolute;top:14px;left:14px;padding:12px 14px;background:rgba(13,21,38,0.92);">
+          <div class="ca-overlay card" style="position:absolute;top:14px;left:14px;padding:12px 14px;background:rgba(13,21,38,0.92);">
             <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:8px;letter-spacing:0.4px;">Layers</div>
             <div style="display:flex;flex-direction:column;gap:6px;">
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-300);"><input type="checkbox" checked="{{layerDrones}}" sc-camel-on-change="{{toggleDrones}}"> Drones</label>
@@ -553,14 +554,14 @@
           </div>
 
           <!-- zoom control -->
-          <div class="row" style="position:absolute;top:14px;right:14px;gap:6px;">
+          <div class="ca-overlay row" style="position:absolute;top:14px;right:14px;gap:6px;">
             <button class="icnbtn" sc-camel-on-click="{{zoomOut}}" aria-label="Zoom out">−</button>
             <div class="card mono" style="padding:0 10px;height:30px;display:flex;align-items:center;font-size:11.5px;background:rgba(13,21,38,0.92);">{{zoomLabel}}</div>
             <button class="icnbtn" sc-camel-on-click="{{zoomIn}}" aria-label="Zoom in">+</button>
           </div>
 
           <!-- playback bar -->
-          <div class="row" style="position:absolute;bottom:14px;left:14px;right:14px;justify-content:space-between;background:rgba(13,21,38,0.92);border:1px solid var(--navy-700);border-radius:10px;padding:10px 16px;">
+          <div class="ca-overlay row" style="position:absolute;bottom:14px;left:14px;right:14px;justify-content:space-between;background:rgba(13,21,38,0.92);border:1px solid var(--navy-700);border-radius:10px;padding:10px 16px;">
             <div class="row" style="gap:10px;">
               <button class="icnbtn" sc-camel-on-click="{{togglePlay}}" aria-label="{{playLabel}}">
                 <sc-if value="{{playing}}" hint-placeholder-val="{{true}}">
@@ -581,7 +582,7 @@
       </div>
 
       <!-- SIDEBAR -->
-      <div style="width:380px;flex-shrink:0;display:flex;flex-direction:column;gap:16px;">
+      <div class="ca-side" style="width:380px;flex-shrink:0;display:flex;flex-direction:column;gap:16px;">
 
         <!-- Alerts -->
         <div class="card">
@@ -639,7 +640,7 @@
           </div>
           <div style="font-size:12px;color:var(--ink-muted);margin-bottom:16px;">{{sd.operatorCategory}}</div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+          <div class="ca-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
             <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Altitude</div><div class="mono" style="font-size:14px;font-weight:600;">{{sd.altitude}} ft</div></div>
             <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Speed</div><div class="mono" style="font-size:14px;font-weight:600;">{{sd.speed}} mph</div></div>
             <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Direction</div><div class="mono" style="font-size:14px;font-weight:600;">{{sd.direction}}</div></div>
@@ -671,7 +672,7 @@
             </div>
           </sc-if>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="ca-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <button class="btn" sc-camel-on-click="{{doMonitor}}">Monitor</button>
             <button class="btn" sc-camel-on-click="{{doIncident}}">Create incident</button>
             <button class="btn" sc-camel-on-click="{{doDismiss}}" disabled="{{sd.dismissDisabled}}">Dismiss alert</button>

@@ -7,6 +7,7 @@
 <title>Civic Air - Alerts &amp; Incidents</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/motion.css">
+<link rel="stylesheet" href="/responsive.css">
 <style>/* cyrillic-ext */
 @font-face {
   font-family: 'IBM Plex Mono';
@@ -414,9 +415,9 @@
 <body>
 <div id="dc-root"></div>
 <template id="dc-template">
-<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+<div class="ca-shell" style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
 
-  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+  <nav class="ca-nav" style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
     <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
       <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
@@ -436,7 +437,7 @@
   </nav>
 
   <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
-    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+    <div class="ca-topbar" style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
       <div class="row" style="gap:18px;"><div style="font-weight:700;font-size:14px;">Northbridge</div><div class="mono" style="font-size:12.5px;color:var(--ink-500);">Alerts &amp; Incidents</div></div>
       <div class="row" style="gap:22px;">
         <div class="row" style="gap:7px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--red);"></div><span style="font-size:12px;color:var(--ink-500);">3 open alerts</span></div>
@@ -491,7 +492,7 @@
       </div>
 
       <!-- Incident detail -->
-      <div class="card" style="width:420px;flex-shrink:0;padding:20px;position:sticky;top:88px;">
+      <div class="ca-side card" style="width:420px;flex-shrink:0;padding:20px;position:sticky;top:88px;">
         <div class="row" style="justify-content:space-between;margin-bottom:4px;">
           <span class="chip" style="background:{{sel.bg}};color:{{sel.color}};">{{sel.severity}}</span>
           <span class="mono" style="font-size:11px;color:var(--ink-muted);">{{sel.id}}</span>

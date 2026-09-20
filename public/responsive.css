@@ -1,0 +1,236 @@
+/*
+ * Responsive layer for Civic Air.
+ *
+ * The screens were drawn at 1440x900 and every element carries an inline style,
+ * so a stylesheet can only reach them with `!important`. Rather than match on
+ * inline values, build.mjs tags the layout containers with the ca-* classes this
+ * file addresses. Changing a padding in the design therefore cannot silently
+ * break the phone layout: the build asserts the hooks still land.
+ *
+ * Three breakpoints. Below 1100px the sticky detail columns stop being columns.
+ * Below 780px the page shell stops being a row and the left rail becomes a
+ * scrolling top strip. Below 560px the grids collapse to a single column.
+ */
+
+/* Tap targets and text sizing hold at every width. */
+.navlink,
+.btn,
+.icnbtn,
+.segbtn,
+.tab,
+.filterchip {
+  touch-action: manipulation;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* iOS zooms the page in when a focused field is under 16px, and never zooms
+   back out. The fields are 13px by design, so they are enlarged on touch
+   devices only rather than everywhere. */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  /* A flex item's default min-width is its content, so a row of filter chips
+     that cannot wrap makes the whole content column as wide as the chips, and
+     the page scrolls sideways. Releasing that floor is what actually fixes the
+     overflow; the layout rules below are built on top of it. It starts here
+     rather than at the phone breakpoint because a tablet-width window hits the
+     same wall while the shell is still a row. */
+  .ca-shell,
+  .ca-shell * {
+    min-width: 0 !important;
+  }
+
+  .row { flex-wrap: wrap; }
+
+  /* Except inside the nav strip, which is meant to run off the edge and scroll. */
+  .ca-nav .row { flex-wrap: nowrap; }
+
+  /* A card holding a wide table is sized by that table unless it is capped, and
+     then the table's own max-width has nothing smaller to resolve against. The
+     cap has to land on the card for the table scroller to do anything. */
+  .ca-shell .card,
+  .ca-shell .ca-table {
+    max-width: 100% !important;
+  }
+
+  /* A detail panel beside a list becomes a panel under it. The parent is
+     reached with :has because only the child carries a class; where :has is
+     unsupported the panel still shrinks rather than overflowing, because
+     flex-shrink is released below. */
+  *:has(> .ca-side) {
+    flex-direction: column !important;
+  }
+
+  .ca-side {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-shrink: 1 !important;
+    position: static !important;
+  }
+
+  /* Six columns of filters is three at this width. */
+  .ca-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 780px) {
+  /* The shell stops being rail plus content. */
+  .ca-shell {
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+
+  /* The rail becomes a horizontally scrolling strip pinned to the top. It keeps
+     the brand, because a demo gets opened from a link and the viewer needs to
+     know what they are looking at, and drops the sensor and operator footer,
+     which the bar underneath already reports. */
+  .ca-nav {
+    width: 100% !important;
+    height: auto !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 40;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 12px !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: none !important;
+    border-bottom: 1px solid var(--navy-700);
+    scrollbar-width: none;
+  }
+
+  .ca-nav::-webkit-scrollbar { display: none; }
+
+  .ca-nav > div:first-child {
+    padding: 0 12px 0 4px !important;
+    flex-shrink: 0;
+  }
+
+  .ca-nav > div:last-child { display: none !important; }
+
+  .ca-nav .navlink {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* The bar above each dashboard wraps instead of squeezing its status chips. */
+  .ca-topbar {
+    height: auto !important;
+    min-height: 0 !important;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    padding: 12px 16px !important;
+  }
+
+  /* The desktop gutter is 40px a side, which is a fifth of a phone screen. */
+  .ca-gutter {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .ca-hero {
+    padding-top: 48px !important;
+    padding-bottom: 36px !important;
+  }
+
+  .ca-hero h1 {
+    font-size: 34px !important;
+    line-height: 1.14 !important;
+    letter-spacing: -0.2px !important;
+  }
+
+  .ca-hero p { font-size: 15.5px !important; }
+
+  /* The landing header stacks, and its links scroll rather than wrap into a
+     ragged block. */
+  .ca-sitehead {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 14px;
+  }
+
+  .ca-sitehead > div:last-child {
+    width: 100%;
+    gap: 18px !important;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .ca-sitehead > div:last-child::-webkit-scrollbar { display: none; }
+  .ca-sitehead > div:last-child > * { flex-shrink: 0; }
+
+  /* A 560px map leaves no room for anything else on a phone. */
+  .ca-map { height: 340px !important; }
+
+  /* The layers box, the zoom control and the playback bar float over the map.
+     At this width they cover more of it than they leave, so they come out of
+     the overlay and stack underneath, which also gives the map its height back. */
+  .ca-overlay {
+    position: static !important;
+    inset: auto !important;
+    width: auto !important;
+    margin: 10px 0 0 0 !important;
+  }
+
+  /* Tables keep their columns and scroll sideways. Crushing them wraps every
+     cell to three lines and the log stops being readable at all. */
+  .ca-table {
+    display: block;
+    /* max-width is what makes the scroller work. Without it the block is sized
+       by its own content, its parent grows to match, and the page scrolls
+       sideways instead of the table. */
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Buttons reach a real tap target and a lone button spans the row. */
+  .btn {
+    min-height: 44px;
+    padding: 12px 18px !important;
+  }
+
+  /* Hover lifts are meaningless on touch and leave a stuck state after a tap. */
+  .row:hover,
+  .row-hover:hover,
+  .btn:hover,
+  .icnbtn:hover,
+  .navlink:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .ca-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .ca-gutter {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .ca-hero h1 { font-size: 29px !important; }
+
+  .ca-map { height: 300px !important; }
+
+  /* Stacked actions go full width so a thumb cannot miss between two of them. */
+  .ca-side .btn { width: 100%; justify-content: center; }
+}
