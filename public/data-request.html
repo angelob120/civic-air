@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Civic Air is a prototype for accountable low-altitude drone coordination in cities. All data shown is simulated.">
+<title>Civic Air - Authorized Data Request</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c6f09ee0e0a24b7c.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/7b59d6bf7f8b8408.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/0a8b854cc18641bd.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/f1050dc5317b4343.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c36f509c0a8f9f85.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/311098be73eac339.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/d524dc8ff6dbf7ed.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/b2529fba93fd07a5.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/77f03e26f981c582.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/a76f53ca6612e7b3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/f746246b6b0b641f.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/b814a03d7e57b062.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/69744cabbccc9faf.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/1b6b18fd0fd240bc.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/ad4580d8cb4b5f62.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  :root{
+    --navy-950:#0A0F1A;--navy-900:#0D1526;--navy-850:#101B30;--navy-800:#131F38;--navy-700:#1B2A47;--navy-600:#233757;
+    --ink-0:#EDF1F7;--ink-300:#B7C4D9;--ink-500:#8296B4;--ink-muted:#64789B;
+    --cyan:#2FC4DE;--green:#33BE7D;--amber:#E4A73C;--red:#E1484F;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:var(--navy-950);}
+  a{text-decoration:none;color:inherit;}
+  button, select, input, textarea{font-family:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .navlink{display:flex;align-items:center;gap:11px;padding:9px 16px;margin:0 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-500);}
+  .navlink.active{background:var(--navy-800);color:var(--ink-0);}
+  .navlink:hover{color:var(--ink-0);}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;}
+  .card{background:var(--navy-900);border:1px solid var(--navy-700);border-radius:12px;}
+  .row{display:flex;align-items:center;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:7px;font-size:13px;font-weight:600;border:1px solid var(--navy-600);background:var(--navy-800);color:var(--ink-0);cursor:pointer;}
+  .btn:hover{border-color:var(--cyan);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .btn-primary{background:var(--cyan);border-color:var(--cyan);color:#06222A;}
+  .field label{display:block;font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:7px;}
+  .field select, .field input, .field textarea{width:100%;background:var(--navy-850);border:1px solid var(--navy-700);border-radius:7px;color:var(--ink-0);font-size:13px;padding:10px 12px;}
+  .field .hint{font-size:11px;color:var(--ink-muted);margin-top:5px;}
+  .step{display:flex;align-items:center;gap:8px;}
+  .stepdot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+
+  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+    <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+      </div>
+      <div><div style="font-weight:700;font-size:14.5px;">Civic Air</div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);letter-spacing:0.4px;text-transform:uppercase;">Northbridge Ops</div></div>
+    </div>
+    <a href="/command-center" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><line x1="12" y1="4" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="20"></line><line x1="4" y1="12" x2="8" y2="12"></line><line x1="16" y1="12" x2="20" y2="12"></line></svg>Command Center</a>
+    <a href="/alerts" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 4 L21 19 L3 19 Z"></path><line x1="12" y1="10" x2="12" y2="14.5"></line><circle cx="12" cy="16.5" r="0.6" fill="currentColor"></circle></svg>Alerts</a>
+    <a href="/flight-history" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8.5"></circle><line x1="12" y1="7" x2="12" y2="12"></line><line x1="12" y1="12" x2="15.5" y2="14"></line></svg>Flight History</a>
+    <a href="/data-request" class="navlink active"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="5" y="3" width="14" height="18" rx="2"></rect><line x1="8.5" y1="8" x2="15.5" y2="8"></line><line x1="8.5" y1="12" x2="15.5" y2="12"></line><line x1="8.5" y1="16" x2="12.5" y2="16"></line></svg>Data Requests</a>
+    <a href="/privacy-audit" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"></path><path d="M9 12 L11 14 L15.5 9.5"></path></svg>Privacy &amp; Audit</a>
+    <a href="/" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 13 L8 9 L12 15 L16 7 L20 12"></path></svg>System Status</a>
+    <div style="margin-top:auto;padding:16px 24px 0 24px;border-top:1px solid var(--navy-800);">
+      <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;">M. Alvarez</div>
+      <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Operations Lead · Authorized</div>
+    </div>
+  </nav>
+
+  <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
+    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+      <div class="row" style="gap:18px;"><div style="font-weight:700;font-size:14px;">Northbridge</div><div class="mono" style="font-size:12.5px;color:var(--ink-500);">Authorized Data Request</div></div>
+      <div class="row" style="gap:8px;">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;">MA</div>
+        <div><div style="font-size:12px;font-weight:600;line-height:1.2;">M. Alvarez</div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);">OPERATIONS LEAD</div></div>
+      </div>
+    </div>
+
+    <div style="flex-grow:1;padding:32px;display:flex;justify-content:center;">
+      <div style="width:100%;max-width:760px;">
+
+        <div style="margin-bottom:22px;">
+          <div style="font-size:20px;font-weight:700;margin-bottom:6px;">Authorized data request</div>
+          <div style="font-size:13px;color:var(--ink-muted);line-height:1.6;">
+            For public-safety agencies requesting specific flight records for a legitimate, documented investigation.
+            Requests must be narrow, justified, time-limited, and reviewable - bulk export is not available.
+          </div>
+        </div>
+
+        <div class="row" style="gap:24px;margin-bottom:24px;">
+          <sc-for list="{{steps}}" as="s">
+            <div class="step">
+              <div class="stepdot" style="background:{{s.bg}};color:{{s.color}};">{{s.num}}</div>
+              <span style="font-size:12.5px;color:{{s.textColor}};font-weight:600;">{{s.label}}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- STEP 1 -->
+        <sc-if value="{{isStep1}}" hint-placeholder-val="{{true}}">
+          <div class="card" style="padding:26px;display:flex;flex-direction:column;gap:18px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div class="field"><label>Case / incident number *</label><input type="text" value="{{caseNumber}}" sc-camel-on-change="{{onField('caseNumber')}}" placeholder="e.g. NPD-2026-04471"></div>
+              <div class="field"><label>Requesting agency *</label>
+                <sc-raw-select value="{{agency}}" sc-camel-on-change="{{onField('agency')}}">
+                  <sc-for list="{{agencyOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+                </sc-raw-select>
+              </div>
+              <div class="field"><label>Authorized requester *</label><input type="text" value="{{requester}}" sc-camel-on-change="{{onField('requester')}}" placeholder="Name and badge / credential ID"></div>
+              <div class="field"><label>Geographic boundary *</label>
+                <sc-raw-select value="{{boundary}}" sc-camel-on-change="{{onField('boundary')}}">
+                  <sc-for list="{{boundaryOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+                </sc-raw-select>
+              </div>
+              <div class="field"><label>Date range start *</label><input type="date" value="{{dateStart}}" sc-camel-on-change="{{onField('dateStart')}}"></div>
+              <div class="field"><label>Date range end *</label><input type="date" value="{{dateEnd}}" sc-camel-on-change="{{onField('dateEnd')}}"></div>
+            </div>
+
+            <div class="field"><label>Purpose &amp; legal basis *</label>
+              <textarea rows="3" value="{{purpose}}" sc-camel-on-change="{{onField('purpose')}}" placeholder="Describe the investigation and the legal authority for this request (min. 40 characters)."></textarea>
+              <div class="hint">{{purposeLen}} characters</div>
+            </div>
+
+            <div class="field">
+              <label>Specific fields requested *</label>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{fieldOptions}}" as="f">
+                  <label style="display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-300);font-weight:400;text-transform:none;letter-spacing:0;cursor:pointer;">
+                    <input type="checkbox" checked="{{f.checked}}" sc-camel-on-change="{{f.toggle}}">{{f.label}}
+                    <sc-if value="{{f.restricted}}" hint-placeholder-val="{{false}}"><span class="chip" style="background:rgba(228,167,60,0.14);color:var(--amber);">restricted</span></sc-if>
+                  </label>
+                </sc-for>
+                <label style="display:flex;align-items:center;gap:9px;font-size:12px;color:var(--ink-muted);font-weight:400;text-transform:none;letter-spacing:0;cursor:not-allowed;padding-top:6px;border-top:1px solid var(--navy-800);margin-top:2px;">
+                  <input type="checkbox" checked="{{false}}" sc-camel-on-change="{{onSelectAll}}" disabled="">Select all fields (bulk export is disabled by design)
+                </label>
+              </div>
+              <sc-if value="{{showBulkWarning}}" hint-placeholder-val="{{false}}">
+                <div class="hint" style="color:var(--amber);">Bulk selection is disabled. Choose only the specific fields required for this investigation.</div>
+              </sc-if>
+              <sc-if value="{{showIdentityWarning}}" hint-placeholder-val="{{false}}">
+                <div class="hint" style="color:var(--amber);">Requesting operator identity requires a documented investigative basis of at least 40 characters in Purpose &amp; legal basis.</div>
+              </sc-if>
+            </div>
+
+            <div class="field"><label>Expiration date *</label><input type="date" value="{{expiration}}" sc-camel-on-change="{{onField('expiration')}}">
+              <div class="hint">Access to any returned records ends automatically on this date.</div>
+            </div>
+
+            <div class="row" style="justify-content:flex-end;">
+              <button class="btn btn-primary" sc-camel-on-click="{{goStep2}}" disabled="{{step1Invalid}}">Continue to review</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- STEP 2 -->
+        <sc-if value="{{isStep2}}" hint-placeholder-val="{{false}}">
+          <div class="card" style="padding:26px;display:flex;flex-direction:column;gap:16px;">
+            <div style="font-size:14px;font-weight:600;">Review request</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:12.5px;">
+              <div><div class="hint" style="margin:0 0 4px 0;">Case number</div><div class="mono">{{caseNumber}}</div></div>
+              <div><div class="hint" style="margin:0 0 4px 0;">Agency</div><div>{{agency}}</div></div>
+              <div><div class="hint" style="margin:0 0 4px 0;">Requester</div><div>{{requester}}</div></div>
+              <div><div class="hint" style="margin:0 0 4px 0;">Boundary</div><div>{{boundary}}</div></div>
+              <div><div class="hint" style="margin:0 0 4px 0;">Date range</div><div class="mono">{{dateStart}} → {{dateEnd}}</div></div>
+              <div><div class="hint" style="margin:0 0 4px 0;">Expires</div><div class="mono">{{expiration}}</div></div>
+            </div>
+            <div><div class="hint" style="margin:0 0 4px 0;">Purpose &amp; legal basis</div><div style="font-size:12.5px;color:var(--ink-300);line-height:1.5;">{{purpose}}</div></div>
+            <div><div class="hint" style="margin:0 0 6px 0;">Fields requested</div>
+              <div class="row" style="gap:6px;flex-wrap:wrap;">
+                <sc-for list="{{selectedFieldChips}}" as="c"><span class="chip" style="background:var(--navy-800);color:var(--ink-300);">{{c}}</span></sc-for>
+              </div>
+            </div>
+
+            <div class="field"><label>Approver *</label>
+              <sc-raw-select value="{{approver}}" sc-camel-on-change="{{onField('approver')}}">
+                <sc-for list="{{approverOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+              </sc-raw-select>
+            </div>
+
+            <div class="card" style="background:var(--navy-850);padding:14px;">
+              <label style="display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:var(--ink-300);cursor:pointer;">
+                <input type="checkbox" checked="{{confirmed}}" sc-camel-on-change="{{onConfirm}}" style="margin-top:2px;">
+                I confirm this request is specific, justified, and time-limited, and that it will be recorded in the tamper-evident audit log.
+              </label>
+            </div>
+
+            <div class="row" style="justify-content:space-between;">
+              <button class="btn" sc-camel-on-click="{{backStep1}}">Back</button>
+              <button class="btn btn-primary" sc-camel-on-click="{{onSubmit}}" disabled="{{step2Invalid}}">Submit request</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- STEP 3 -->
+        <sc-if value="{{isStep3}}" hint-placeholder-val="{{false}}">
+          <div class="card" style="padding:30px;">
+            <div class="row" style="gap:10px;margin-bottom:14px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:rgba(51,190,125,0.14);display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#33BE7D" stroke-width="2.5"><path d="M5 13 L10 18 L19 6"></path></svg>
+              </div>
+              <div>
+                <div style="font-size:15px;font-weight:700;">Request submitted and logged</div>
+                <div style="font-size:12.5px;color:var(--ink-muted);">Awaiting approval from {{approver}}</div>
+              </div>
+            </div>
+            <div class="card" style="background:var(--navy-850);padding:16px;margin-bottom:16px;">
+              <div class="mono" style="font-size:11px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:6px;">Request ID</div>
+              <div class="mono" style="font-size:18px;font-weight:700;color:var(--cyan);">{{requestId}}</div>
+            </div>
+            <div class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:8px;">Audit log excerpt</div>
+            <div class="card" style="background:var(--navy-850);padding:14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-300);line-height:1.7;margin-bottom:20px;">
+              [{{nowStamp}}] user=m.alvarez action=DATA_REQUEST_SUBMITTED id={{requestId}} agency="{{agency}}" fields={{selectedFieldChips.length}} expires={{expiration}} hash={{fakeHash}}
+            </div>
+            <button class="btn" sc-camel-on-click="{{reset}}">Start a new request</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+<script src="/dc.js"></script>
+<script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      step: 1,
+      caseNumber: '', agency: 'Select an agency', requester: '', boundary: 'Select a boundary', dateStart: '', dateEnd: '', purpose: '', expiration: '',
+      approver: 'Select an approver', confirmed: false,
+      fields: { path: false, telemetry: false, category: false, sensor: false, identity: false },
+      requestId: '', nowStamp: '', fakeHash: ''
+    };
+    this.onField = this.onField.bind(this);
+    this.onSelectAll = this.onSelectAll.bind(this);
+    this.goStep2 = this.goStep2.bind(this);
+    this.backStep1 = this.backStep1.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.reset = this.reset.bind(this);
+    this._bulkWarn = false;
+  }
+  onField(key) { var self = this; return function (e) { var v = e && e.target ? e.target.value : e; var s = {}; s[key] = v; self.setState(s); }; }
+  toggleField(key) { var f = Object.assign({}, this.state.fields); f[key] = !f[key]; this.setState({ fields: f }); }
+  onSelectAll() { this._bulkWarn = true; this.forceUpdate(); }
+  goStep2() { this.setState({ step: 2 }); }
+  backStep1() { this.setState({ step: 1 }); }
+  onConfirm(e) { this.setState({ confirmed: e && e.target ? e.target.checked : true }); }
+  onSubmit() {
+    var id = 'REQ-2026-' + (1000 + Math.floor(Math.random() * 8999));
+    var hash = Math.random().toString(16).slice(2, 10);
+    this.setState({ step: 3, requestId: id, nowStamp: '2026-09-20 20:' + (47 + Math.floor(Math.random() * 3)) + ':11Z', fakeHash: hash });
+  }
+  reset() {
+    this._bulkWarn = false;
+    this.setState({ step: 1, caseNumber: '', agency: 'Select an agency', requester: '', boundary: 'Select a boundary', dateStart: '', dateEnd: '', purpose: '', expiration: '', approver: 'Select an approver', confirmed: false, fields: { path: false, telemetry: false, category: false, sensor: false, identity: false } });
+  }
+  renderVals() {
+    var self = this;
+    var fieldDefs = [
+      { key: 'path', label: 'Flight path & timestamps', restricted: false },
+      { key: 'telemetry', label: 'Altitude / speed telemetry', restricted: false },
+      { key: 'category', label: 'Registration category (non-identifying)', restricted: false },
+      { key: 'sensor', label: 'Detection sensor logs', restricted: false },
+      { key: 'identity', label: 'Operator identity', restricted: true }
+    ];
+    var fieldOptions = fieldDefs.map(function (f) {
+      return { label: f.label, restricted: f.restricted, checked: self.state.fields[f.key], toggle: function () { self.toggleField(f.key); } };
+    });
+    var anyField = Object.keys(this.state.fields).some(function (k) { return self.state.fields[k]; });
+    var purposeLen = (this.state.purpose || '').trim().length;
+    var identityBlocked = this.state.fields.identity && purposeLen < 40;
+    var step1Invalid = !this.state.caseNumber || this.state.agency === 'Select an agency' || !this.state.requester ||
+      this.state.boundary === 'Select a boundary' || !this.state.dateStart || !this.state.dateEnd || purposeLen < 10 ||
+      !anyField || !this.state.expiration || identityBlocked;
+    var step2Invalid = this.state.approver === 'Select an approver' || !this.state.confirmed;
+    var chips = fieldDefs.filter(function (f) { return self.state.fields[f.key]; }).map(function (f) { return f.label; });
+    var stepDefs = [{ n: 1, l: 'Request details' }, { n: 2, l: 'Review & confirm' }, { n: 3, l: 'Submitted' }];
+    var steps = stepDefs.map(function (s) {
+      var active = self.state.step === s.n, done = self.state.step > s.n;
+      return { num: done ? '' : s.n, label: s.l, bg: active ? 'var(--cyan)' : done ? 'var(--green)' : 'var(--navy-800)', color: (active || done) ? '#06222A' : 'var(--ink-muted)', textColor: active ? 'var(--ink-0)' : 'var(--ink-muted)' };
+    });
+    return {
+      steps: steps,
+      isStep1: this.state.step === 1, isStep2: this.state.step === 2, isStep3: this.state.step === 3,
+      caseNumber: this.state.caseNumber, agency: this.state.agency, requester: this.state.requester, boundary: this.state.boundary,
+      dateStart: this.state.dateStart, dateEnd: this.state.dateEnd, purpose: this.state.purpose, purposeLen: purposeLen,
+      expiration: this.state.expiration, approver: this.state.approver, confirmed: this.state.confirmed,
+      onField: this.onField, onSelectAll: this.onSelectAll,
+      agencyOptions: ['Select an agency', 'Northbridge Police Dept. - Air Safety Unit', 'State Fire Marshal', 'County Emergency Management', 'FAA Regional Field Office', 'Other public-safety agency'],
+      boundaryOptions: ['Select a boundary', 'Aurora Stadium zone', 'Mercy Hospital Corridor', 'Sector 1', 'Sector 2', 'Sector 3', 'Sector 4'],
+      approverOptions: ['Select an approver', 'R. Chen - Deputy Director of Operations', 'T. Osei - City Privacy Officer'],
+      fieldOptions: fieldOptions,
+      showBulkWarning: this._bulkWarn,
+      showIdentityWarning: identityBlocked,
+      step1Invalid: step1Invalid, step2Invalid: step2Invalid,
+      goStep2: this.goStep2, backStep1: this.backStep1, onConfirm: this.onConfirm, onSubmit: this.onSubmit, reset: this.reset,
+      selectedFieldChips: chips,
+      requestId: this.state.requestId, nowStamp: this.state.nowStamp, fakeHash: this.state.fakeHash
+    };
+  }
+}
+DC.mount(Component);
+</script>
+</body>
+</html>

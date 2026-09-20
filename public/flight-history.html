@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Civic Air is a prototype for accountable low-altitude drone coordination in cities. All data shown is simulated.">
+<title>Civic Air - Flight History</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c6f09ee0e0a24b7c.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/7b59d6bf7f8b8408.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/0a8b854cc18641bd.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/f1050dc5317b4343.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c36f509c0a8f9f85.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/311098be73eac339.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/d524dc8ff6dbf7ed.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/b2529fba93fd07a5.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/77f03e26f981c582.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/a76f53ca6612e7b3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/f746246b6b0b641f.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/b814a03d7e57b062.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/69744cabbccc9faf.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/1b6b18fd0fd240bc.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/ad4580d8cb4b5f62.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  :root{
+    --navy-950:#0A0F1A;--navy-900:#0D1526;--navy-850:#101B30;--navy-800:#131F38;--navy-700:#1B2A47;--navy-600:#233757;
+    --ink-0:#EDF1F7;--ink-300:#B7C4D9;--ink-500:#8296B4;--ink-muted:#64789B;
+    --cyan:#2FC4DE;--green:#33BE7D;--amber:#E4A73C;--red:#E1484F;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:var(--navy-950);}
+  a{text-decoration:none;color:inherit;}
+  button, select, input{font-family:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .navlink{display:flex;align-items:center;gap:11px;padding:9px 16px;margin:0 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-500);}
+  .navlink.active{background:var(--navy-800);color:var(--ink-0);}
+  .navlink:hover{color:var(--ink-0);}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;}
+  .card{background:var(--navy-900);border:1px solid var(--navy-700);border-radius:12px;}
+  .row{display:flex;align-items:center;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:7px;font-size:12.5px;font-weight:600;border:1px solid var(--navy-600);background:var(--navy-800);color:var(--ink-0);cursor:pointer;}
+  .btn:hover{border-color:var(--cyan);}
+  .btn-primary{background:var(--cyan);border-color:var(--cyan);color:#06222A;}
+  .field label{display:block;font-size:10.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;}
+  .field select, .field input{width:100%;background:var(--navy-850);border:1px solid var(--navy-700);border-radius:7px;color:var(--ink-0);font-size:12.5px;padding:8px 10px;}
+  table{width:100%;border-collapse:collapse;}
+  th{text-align:left;font-size:10.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.4px;padding:10px 14px;border-bottom:1px solid var(--navy-700);}
+  td{padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--navy-800);color:var(--ink-300);}
+  tr.row-hover:hover td{background:var(--navy-850);}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .spin{animation:spin 0.8s linear infinite;}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+
+  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+    <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+      </div>
+      <div><div style="font-weight:700;font-size:14.5px;">Civic Air</div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);letter-spacing:0.4px;text-transform:uppercase;">Northbridge Ops</div></div>
+    </div>
+    <a href="/command-center" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><line x1="12" y1="4" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="20"></line><line x1="4" y1="12" x2="8" y2="12"></line><line x1="16" y1="12" x2="20" y2="12"></line></svg>Command Center</a>
+    <a href="/alerts" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 4 L21 19 L3 19 Z"></path><line x1="12" y1="10" x2="12" y2="14.5"></line><circle cx="12" cy="16.5" r="0.6" fill="currentColor"></circle></svg>Alerts</a>
+    <a href="/flight-history" class="navlink active"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8.5"></circle><line x1="12" y1="7" x2="12" y2="12"></line><line x1="12" y1="12" x2="15.5" y2="14"></line></svg>Flight History</a>
+    <a href="/data-request" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="5" y="3" width="14" height="18" rx="2"></rect><line x1="8.5" y1="8" x2="15.5" y2="8"></line><line x1="8.5" y1="12" x2="15.5" y2="12"></line><line x1="8.5" y1="16" x2="12.5" y2="16"></line></svg>Data Requests</a>
+    <a href="/privacy-audit" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"></path><path d="M9 12 L11 14 L15.5 9.5"></path></svg>Privacy &amp; Audit</a>
+    <a href="/" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 13 L8 9 L12 15 L16 7 L20 12"></path></svg>System Status</a>
+    <div style="margin-top:auto;padding:16px 24px 0 24px;border-top:1px solid var(--navy-800);">
+      <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;">M. Alvarez</div>
+      <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Operations Lead · Authorized</div>
+    </div>
+  </nav>
+
+  <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
+    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+      <div class="row" style="gap:18px;"><div style="font-weight:700;font-size:14px;">Northbridge</div><div class="mono" style="font-size:12.5px;color:var(--ink-500);">Flight History</div></div>
+      <div class="row" style="gap:8px;">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;">MA</div>
+        <div><div style="font-size:12px;font-weight:600;line-height:1.2;">M. Alvarez</div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);">OPERATIONS LEAD</div></div>
+      </div>
+    </div>
+
+    <div style="flex-grow:1;padding:24px;display:flex;flex-direction:column;gap:18px;">
+      <div>
+        <div style="font-size:20px;font-weight:700;margin-bottom:4px;">Flight history</div>
+        <div style="font-size:13px;color:var(--ink-muted);">Fictional sample records for the Northbridge simulation grid.</div>
+      </div>
+
+      <div class="card" style="padding:18px;">
+        <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:end;">
+          <div class="field"><label>Date range</label>
+            <sc-raw-select value="{{dateFilter}}" sc-camel-on-change="{{onDate}}">
+              <sc-for list="{{dateOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+            </sc-raw-select>
+          </div>
+          <div class="field"><label>Drone ID</label>
+            <input type="text" value="{{droneQuery}}" sc-camel-on-change="{{onDroneQuery}}" placeholder="e.g. DRN-2048">
+          </div>
+          <div class="field"><label>Status</label>
+            <sc-raw-select value="{{statusFilter}}" sc-camel-on-change="{{onStatus}}">
+              <sc-for list="{{statusOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+            </sc-raw-select>
+          </div>
+          <div class="field"><label>Alert type</label>
+            <sc-raw-select value="{{alertFilter}}" sc-camel-on-change="{{onAlert}}">
+              <sc-for list="{{alertOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+            </sc-raw-select>
+          </div>
+          <div class="field"><label>Zone</label>
+            <sc-raw-select value="{{zoneFilter}}" sc-camel-on-change="{{onZone}}">
+              <sc-for list="{{zoneOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+            </sc-raw-select>
+          </div>
+          <div class="field"><label>Retention state</label>
+            <sc-raw-select value="{{retentionFilter}}" sc-camel-on-change="{{onRetention}}">
+              <sc-for list="{{retentionOptions}}" as="o"><option value="{{o}}">{{o}}</option></sc-for>
+            </sc-raw-select>
+          </div>
+        </div>
+        <div class="row" style="justify-content:space-between;margin-top:16px;">
+          <div class="mono" style="font-size:11px;color:var(--ink-muted);">{{resultSummary}}</div>
+          <button class="btn btn-primary" sc-camel-on-click="{{onSearch}}">
+            <sc-if value="{{loading}}" hint-placeholder-val="{{false}}">
+              <svg class="spin" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2 a10 10 0 0 1 10 10"></path></svg>
+            </sc-if>
+            Search
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div class="card" style="flex-grow:1;min-width:0;overflow:hidden;">
+          <sc-if value="{{loading}}" hint-placeholder-val="{{false}}">
+            <div style="padding:60px;text-align:center;">
+              <svg class="spin" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="2.5" style="margin-bottom:12px;"><path d="M12 2 a10 10 0 0 1 10 10"></path></svg>
+              <div style="font-size:13px;color:var(--ink-muted);">Searching flight records…</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{showEmpty}}" hint-placeholder-val="{{false}}">
+            <div style="padding:60px;text-align:center;">
+              <div style="font-size:14px;font-weight:600;margin-bottom:6px;">No flights match these filters</div>
+              <div style="font-size:12.5px;color:var(--ink-muted);">Try widening the date range or clearing a filter.</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{showTable}}" hint-placeholder-val="{{true}}">
+            <sc-raw-table>
+              <sc-raw-thead><sc-raw-tr><sc-raw-th>Flight</sc-raw-th><sc-raw-th>Drone</sc-raw-th><sc-raw-th>Date</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Alert type</sc-raw-th><sc-raw-th>Zone</sc-raw-th><sc-raw-th>Retention</sc-raw-th></sc-raw-tr></sc-raw-thead>
+              <sc-raw-tbody>
+                <sc-for list="{{flights}}" as="f" hint-placeholder-count="10">
+                  <sc-raw-tr class="row-hover" style="cursor:pointer;background:{{f.rowBg}};" sc-camel-on-click="{{f.pick}}">
+                    <sc-raw-td class="mono">{{f.id}}</sc-raw-td>
+                    <sc-raw-td class="mono">{{f.droneId}}</sc-raw-td>
+                    <sc-raw-td>{{f.displayDate}}</sc-raw-td>
+                    <sc-raw-td><span class="chip" style="background:{{f.statusBg}};color:{{f.statusColor}};">{{f.status}}</span></sc-raw-td>
+                    <sc-raw-td>{{f.alertType}}</sc-raw-td>
+                    <sc-raw-td>{{f.zone}}</sc-raw-td>
+                    <sc-raw-td class="mono" style="font-size:11px;color:var(--ink-muted);">{{f.retention}}</sc-raw-td>
+                  </sc-raw-tr>
+                </sc-for>
+              </sc-raw-tbody>
+            </sc-raw-table>
+          </sc-if>
+        </div>
+
+        <!-- Playback -->
+        <div class="card" style="width:340px;flex-shrink:0;padding:18px;position:sticky;top:88px;">
+          <div class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:10px;">Route playback</div>
+          <sc-if value="{{hasSelection}}" hint-placeholder-val="{{false}}">
+            <div class="mono" style="font-size:14px;font-weight:700;margin-bottom:2px;">{{sel.id}}</div>
+            <div style="font-size:12px;color:var(--ink-muted);margin-bottom:14px;">{{sel.droneId}} · {{sel.displayDate}}</div>
+            <svg sc-camel-view-box="0 0 280 160" style="width:100%;height:150px;background:var(--navy-950);border-radius:8px;margin-bottom:14px;">
+              <defs><pattern id="g2" width="20" height="20" sc-camel-pattern-units="userSpaceOnUse"><path d="M20 0 L0 0 0 20" fill="none" stroke="#131F38" stroke-width="1"></path></pattern></defs>
+              <rect width="280" height="160" fill="url(#g2)"></rect>
+              <polyline points="{{sel.routeStr}}" fill="none" stroke="{{sel.color}}" stroke-width="2.5" stroke-dasharray="5 4"></polyline>
+              <circle cx="{{sel.startX}}" cy="{{sel.startY}}" r="4" fill="#8296B4"></circle>
+              <circle cx="{{sel.endX}}" cy="{{sel.endY}}" r="5" fill="{{sel.color}}"></circle>
+            </svg>
+            <div class="row" style="gap:8px;margin-bottom:14px;">
+              <button class="btn" style="padding:7px 10px;" sc-camel-on-click="{{togglePlayback}}" aria-label="Play route">
+                <sc-if value="{{playing}}" hint-placeholder-val="{{false}}"><svg width="11" height="11" sc-camel-view-box="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="5" height="16"></rect><rect x="14" y="4" width="5" height="16"></rect></svg></sc-if>
+                <sc-if value="{{notPlaying}}" hint-placeholder-val="{{true}}"><svg width="11" height="11" sc-camel-view-box="0 0 24 24" fill="currentColor"><path d="M6 4 L20 12 L6 20 Z"></path></svg></sc-if>
+              </button>
+              <input type="range" min="0" max="100" value="{{scrub}}" sc-camel-on-change="{{onScrub}}" style="flex-grow:1;">
+            </div>
+            <div class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:8px;">Waypoints</div>
+            <sc-for list="{{sel.waypoints}}" as="w">
+              <div class="row" style="justify-content:space-between;font-size:11.5px;color:var(--ink-300);padding:4px 0;">
+                <span>{{w.label}}</span><span class="mono" style="color:var(--ink-muted);">{{w.time}}</span>
+              </div>
+            </sc-for>
+          </sc-if>
+          <sc-if value="{{noSelection}}" hint-placeholder-val="{{true}}">
+            <div style="font-size:12.5px;color:var(--ink-muted);padding:20px 0;text-align:center;">Select a flight from the table to replay its route.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+<script src="/dc.js"></script>
+<script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.all = [
+      { id: 'FL-0920-041', droneId: 'DRN-2048', date: 'Today', displayDate: 'Today · 8:42 PM', status: 'Active', alertType: 'Restricted-zone entry', zone: 'Aurora Stadium', retention: 'Active · 30d', route: [[20,120],[70,90],[130,60],[180,40]], waypoints: [{ label: 'Detected, Sector 3', time: '8:40 PM' }, { label: 'Entered restriction', time: '8:42 PM' }, { label: 'Moved northeast', time: '8:47 PM' }] },
+      { id: 'FL-0920-038', droneId: 'DRN-1183', date: 'Today', displayDate: 'Today · 8:28 PM', status: 'Active', alertType: 'Unsafe altitude', zone: 'Mercy Hospital Corridor', retention: 'Active · 30d', route: [[30,40],[100,60],[170,90],[240,110]], waypoints: [{ label: 'Entered corridor', time: '8:28 PM' }, { label: 'Exceeded ceiling', time: '8:31 PM' }] },
+      { id: 'FL-0920-035', droneId: 'DRN-0876', date: 'Today', displayDate: 'Today · 8:03 PM', status: 'Active', alertType: 'Signal lost', zone: 'Sector 4', retention: 'Active · 30d', route: [[240,30],[190,60],[140,90],[90,120]], waypoints: [{ label: 'Signal degrading', time: '8:03 PM' }, { label: 'Link intermittent', time: '8:15 PM' }] },
+      { id: 'FL-0920-029', droneId: 'DRN-4470', date: 'Today', displayDate: 'Today · 7:56 PM', status: 'Completed', alertType: 'Possible collision path', zone: 'Sector 2', retention: 'Active · 30d', route: [[20,30],[90,60],[160,50],[240,30]], waypoints: [{ label: 'Path converged', time: '7:56 PM' }, { label: 'Paths diverged', time: '8:01 PM' }] },
+      { id: 'FL-0920-014', droneId: 'DRN-3312', date: 'Today', displayDate: 'Today · 7:20 PM', status: 'Completed', alertType: 'None', zone: 'Sector 1', retention: 'Active · 30d', route: [[30,130],[90,100],[150,80],[220,50]], waypoints: [{ label: 'Takeoff', time: '7:20 PM' }, { label: 'Landed', time: '8:10 PM' }] },
+      { id: 'FL-0919-091', droneId: 'DRN-6154', date: 'Yesterday', displayDate: 'Yesterday · 7:40 PM', status: 'Completed', alertType: 'Unidentified drone', zone: 'Riverside Park', retention: 'Active · 30d', route: [[40,40],[100,70],[160,60],[230,90]], waypoints: [{ label: 'Detected, no registry match', time: '7:40 PM' }, { label: 'Cleared restricted zones', time: '7:44 PM' }] },
+      { id: 'FL-0919-077', droneId: 'DRN-7734', date: 'Yesterday', displayDate: 'Yesterday · 8:36 PM', status: 'Completed', alertType: 'Emergency corridor obstruction', zone: 'Mercy Hospital Corridor', retention: 'Active · 30d', route: [[220,40],[160,60],[100,80],[40,120]], waypoints: [{ label: 'Entered corridor', time: '8:34 PM' }, { label: 'Rerouted', time: '8:45 PM' }] },
+      { id: 'FL-0919-052', droneId: 'DRN-5561', date: 'Yesterday', displayDate: 'Yesterday · 6:12 PM', status: 'Completed', alertType: 'None', zone: 'Sector 2', retention: 'Active · 30d', route: [[30,90],[100,60],[170,90],[240,60]], waypoints: [{ label: 'Takeoff', time: '6:12 PM' }, { label: 'Landed', time: '6:58 PM' }] },
+      { id: 'FL-0919-018', droneId: 'DRN-8845', date: 'Yesterday', displayDate: 'Yesterday · 2:05 PM', status: 'Completed', alertType: 'None', zone: 'Sector 1', retention: 'Active · 30d', route: [[40,120],[110,100],[180,110],[240,90]], waypoints: [{ label: 'Takeoff', time: '2:05 PM' }, { label: 'Landed', time: '2:50 PM' }] },
+      { id: 'FL-0914-133', droneId: 'DRN-2048', date: 'Last 7 days', displayDate: 'Sep 14 · 4:20 PM', status: 'Completed', alertType: 'None', zone: 'Sector 3', retention: 'Retained · under review', route: [[30,40],[100,80],[170,50],[230,90]], waypoints: [{ label: 'Takeoff', time: '4:20 PM' }, { label: 'Landed', time: '5:02 PM' }] },
+      { id: 'FL-0913-021', droneId: 'DRN-1183', date: 'Last 7 days', displayDate: 'Sep 13 · 11:15 AM', status: 'Completed', alertType: 'None', zone: 'Mercy Hospital Corridor', retention: 'Scheduled deletion · 2d', route: [[30,60],[90,90],[160,70],[230,100]], waypoints: [{ label: 'Takeoff', time: '11:15 AM' }, { label: 'Landed', time: '11:58 AM' }] },
+      { id: 'FL-0910-004', droneId: 'DRN-9902', date: 'Last 7 days', displayDate: 'Sep 10 · 9:02 AM', status: 'Aborted', alertType: 'Signal lost', zone: 'Sector 4', retention: 'Deleted', route: [[20,30],[80,60],[140,40]], waypoints: [{ label: 'Takeoff', time: '9:02 AM' }, { label: 'Flight aborted', time: '9:11 AM' }] }
+    ];
+    this.state = { dateFilter: 'All', droneQuery: '', statusFilter: 'All', alertFilter: 'All', zoneFilter: 'All', retentionFilter: 'All', loading: false, selectedId: null, playing: false, scrub: 30 };
+    this.onDate = this.mk('dateFilter'); this.onStatus = this.mk('statusFilter'); this.onAlert = this.mk('alertFilter'); this.onZone = this.mk('zoneFilter'); this.onRetention = this.mk('retentionFilter');
+    this.onDroneQuery = this.onDroneQuery.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.togglePlayback = this.togglePlayback.bind(this);
+    this.onScrub = this.onScrub.bind(this);
+  }
+  mk(key) { var self = this; return function (e) { var v = e && e.target ? e.target.value : e; var s = {}; s[key] = v; self.setState(s); }; }
+  onDroneQuery(e) { this.setState({ droneQuery: e && e.target ? e.target.value : '' }); }
+  onSearch() {
+    this.setState({ loading: true });
+    var self = this;
+    setTimeout(function () { self.setState({ loading: false }); }, 650);
+  }
+  togglePlayback() { this.setState({ playing: !this.state.playing }); }
+  onScrub(e) { this.setState({ scrub: e && e.target ? e.target.value : 30 }); }
+  filtered() {
+    var self = this;
+    return this.all.filter(function (f) {
+      if (self.state.dateFilter !== 'All' && f.date !== self.state.dateFilter) return false;
+      if (self.state.droneQuery && f.droneId.toLowerCase().indexOf(self.state.droneQuery.toLowerCase()) === -1) return false;
+      if (self.state.statusFilter !== 'All' && f.status !== self.state.statusFilter) return false;
+      if (self.state.alertFilter !== 'All' && f.alertType !== self.state.alertFilter) return false;
+      if (self.state.zoneFilter !== 'All' && f.zone !== self.state.zoneFilter) return false;
+      if (self.state.retentionFilter !== 'All') {
+        var short = f.retention.split(' ')[0];
+        if (self.state.retentionFilter !== short && self.state.retentionFilter !== f.retention) return false;
+      }
+      return true;
+    });
+  }
+  renderVals() {
+    var self = this;
+    var statusColor = { Active: { bg: 'rgba(47,196,222,0.14)', color: '#2FC4DE' }, Completed: { bg: 'rgba(51,190,125,0.14)', color: '#33BE7D' }, Aborted: { bg: 'rgba(225,72,79,0.14)', color: '#E1484F' } };
+    var list = this.filtered();
+    var flights = list.map(function (f) {
+      var sc = statusColor[f.status] || statusColor.Completed;
+      return Object.assign({}, f, { statusBg: sc.bg, statusColor: sc.color, rowBg: f.id === self.state.selectedId ? 'var(--navy-850)' : 'transparent', pick: function () { self.setState({ selectedId: f.id }); } });
+    });
+    var selRaw = list.filter(function (f) { return f.id === self.state.selectedId; })[0] || null;
+    var sel = null;
+    if (selRaw) {
+      var color = statusColor[selRaw.status] ? statusColor[selRaw.status].color : '#2FC4DE';
+      var pts = selRaw.route.map(function (p) { return p[0] + ',' + p[1]; }).join(' ');
+      sel = Object.assign({}, selRaw, { routeStr: pts, color: color, startX: selRaw.route[0][0], startY: selRaw.route[0][1], endX: selRaw.route[selRaw.route.length - 1][0], endY: selRaw.route[selRaw.route.length - 1][1] });
+    }
+    return {
+      dateOptions: ['All', 'Today', 'Yesterday', 'Last 7 days'],
+      statusOptions: ['All', 'Active', 'Completed', 'Aborted'],
+      alertOptions: ['All', 'None', 'Restricted-zone entry', 'Unsafe altitude', 'Signal lost', 'Possible collision path', 'Unidentified drone', 'Emergency corridor obstruction'],
+      zoneOptions: ['All', 'Aurora Stadium', 'Mercy Hospital Corridor', 'Riverside Park', 'Sector 1', 'Sector 2', 'Sector 3', 'Sector 4'],
+      retentionOptions: ['All', 'Active', 'Retained', 'Scheduled', 'Deleted'],
+      dateFilter: this.state.dateFilter, statusFilter: this.state.statusFilter, alertFilter: this.state.alertFilter, zoneFilter: this.state.zoneFilter, retentionFilter: this.state.retentionFilter, droneQuery: this.state.droneQuery,
+      onDate: this.onDate, onStatus: this.onStatus, onAlert: this.onAlert, onZone: this.onZone, onRetention: this.onRetention, onDroneQuery: this.onDroneQuery, onSearch: this.onSearch,
+      loading: this.state.loading,
+      showEmpty: !this.state.loading && flights.length === 0,
+      showTable: !this.state.loading && flights.length > 0,
+      resultSummary: this.state.loading ? 'Searching…' : flights.length + ' of ' + this.all.length + ' records shown',
+      flights: flights,
+      hasSelection: !!sel, noSelection: !sel,
+      sel: sel || {},
+      playing: this.state.playing, notPlaying: !this.state.playing, togglePlayback: this.togglePlayback,
+      scrub: this.state.scrub, onScrub: this.onScrub
+    };
+  }
+}
+DC.mount(Component);
+</script>
+</body>
+</html>

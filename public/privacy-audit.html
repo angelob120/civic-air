@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Civic Air is a prototype for accountable low-altitude drone coordination in cities. All data shown is simulated.">
+<title>Civic Air - Privacy &amp; Audit Center</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c6f09ee0e0a24b7c.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/7b59d6bf7f8b8408.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/0a8b854cc18641bd.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/f1050dc5317b4343.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c36f509c0a8f9f85.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/311098be73eac339.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/d524dc8ff6dbf7ed.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/b2529fba93fd07a5.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/77f03e26f981c582.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/a76f53ca6612e7b3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/f746246b6b0b641f.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/b814a03d7e57b062.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/69744cabbccc9faf.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/1b6b18fd0fd240bc.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/ad4580d8cb4b5f62.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  :root{
+    --navy-950:#0A0F1A;--navy-900:#0D1526;--navy-850:#101B30;--navy-800:#131F38;--navy-700:#1B2A47;--navy-600:#233757;
+    --ink-0:#EDF1F7;--ink-300:#B7C4D9;--ink-500:#8296B4;--ink-muted:#64789B;
+    --cyan:#2FC4DE;--green:#33BE7D;--amber:#E4A73C;--red:#E1484F;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:var(--navy-950);}
+  a{text-decoration:none;color:inherit;}
+  button, select, input, textarea{font-family:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .navlink{display:flex;align-items:center;gap:11px;padding:9px 16px;margin:0 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-500);}
+  .navlink.active{background:var(--navy-800);color:var(--ink-0);}
+  .navlink:hover{color:var(--ink-0);}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;}
+  .card{background:var(--navy-900);border:1px solid var(--navy-700);border-radius:12px;}
+  .row{display:flex;align-items:center;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:7px;font-size:13px;font-weight:600;border:1px solid var(--navy-600);background:var(--navy-800);color:var(--ink-0);cursor:pointer;}
+  .btn:hover{border-color:var(--cyan);}
+  .btn-primary{background:var(--cyan);border-color:var(--cyan);color:#06222A;}
+  .btn-danger{background:transparent;border-color:var(--red);color:var(--red);}
+  .tab{padding:9px 16px;border-radius:8px;font-size:12.5px;font-weight:600;background:transparent;border:1px solid transparent;color:var(--ink-500);cursor:pointer;}
+  .tab.active{background:var(--navy-800);color:var(--ink-0);border-color:var(--navy-600);}
+  table{width:100%;border-collapse:collapse;}
+  th{text-align:left;font-size:10.5px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.4px;padding:10px 14px;border-bottom:1px solid var(--navy-700);}
+  td{padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--navy-800);color:var(--ink-300);}
+  .stat{background:var(--navy-900);border:1px solid var(--navy-700);border-radius:12px;padding:18px;}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+
+  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+    <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+      </div>
+      <div><div style="font-weight:700;font-size:14.5px;">Civic Air</div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);letter-spacing:0.4px;text-transform:uppercase;">Northbridge Ops</div></div>
+    </div>
+    <a href="/command-center" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><line x1="12" y1="4" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="20"></line><line x1="4" y1="12" x2="8" y2="12"></line><line x1="16" y1="12" x2="20" y2="12"></line></svg>Command Center</a>
+    <a href="/alerts" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 4 L21 19 L3 19 Z"></path><line x1="12" y1="10" x2="12" y2="14.5"></line><circle cx="12" cy="16.5" r="0.6" fill="currentColor"></circle></svg>Alerts</a>
+    <a href="/flight-history" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8.5"></circle><line x1="12" y1="7" x2="12" y2="12"></line><line x1="12" y1="12" x2="15.5" y2="14"></line></svg>Flight History</a>
+    <a href="/data-request" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="5" y="3" width="14" height="18" rx="2"></rect><line x1="8.5" y1="8" x2="15.5" y2="8"></line><line x1="8.5" y1="12" x2="15.5" y2="12"></line><line x1="8.5" y1="16" x2="12.5" y2="16"></line></svg>Data Requests</a>
+    <a href="/privacy-audit" class="navlink active"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"></path><path d="M9 12 L11 14 L15.5 9.5"></path></svg>Privacy &amp; Audit</a>
+    <a href="/" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 13 L8 9 L12 15 L16 7 L20 12"></path></svg>System Status</a>
+    <div style="margin-top:auto;padding:16px 24px 0 24px;border-top:1px solid var(--navy-800);">
+      <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;">M. Alvarez</div>
+      <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Operations Lead · Authorized</div>
+    </div>
+  </nav>
+
+  <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
+    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+      <div class="row" style="gap:18px;"><div style="font-weight:700;font-size:14px;">Northbridge</div><div class="mono" style="font-size:12.5px;color:var(--ink-500);">Privacy &amp; Audit Center</div></div>
+      <div class="row" style="gap:8px;">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;">MA</div>
+        <div><div style="font-size:12px;font-weight:600;line-height:1.2;">M. Alvarez</div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);">OPERATIONS LEAD</div></div>
+      </div>
+    </div>
+
+    <div style="flex-grow:1;padding:28px;display:flex;flex-direction:column;gap:18px;">
+      <div>
+        <div style="font-size:20px;font-weight:700;margin-bottom:4px;">Privacy &amp; audit center</div>
+        <div style="font-size:13px;color:var(--ink-muted);">Retention, access control, and a tamper-evident record of every access to flight data.</div>
+      </div>
+
+      <div class="row" style="gap:6px;flex-wrap:wrap;">
+        <sc-for list="{{tabs}}" as="t">
+          <button class="tab {{t.cls}}" sc-camel-on-click="{{t.pick}}">{{t.label}}</button>
+        </sc-for>
+      </div>
+
+      <!-- RETENTION -->
+      <sc-if value="{{isRetention}}" hint-placeholder-val="{{true}}">
+        <div class="card" style="overflow:hidden;">
+          <sc-raw-table>
+            <sc-raw-thead><sc-raw-tr><sc-raw-th>Data category</sc-raw-th><sc-raw-th>Retention period</sc-raw-th><sc-raw-th>Auto-delete</sc-raw-th><sc-raw-th>Next scheduled deletion</sc-raw-th></sc-raw-tr></sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-for list="{{retention}}" as="r">
+                <sc-raw-tr><sc-raw-td style="color:var(--ink-0);font-weight:500;">{{r.category}}</sc-raw-td><sc-raw-td class="mono">{{r.period}}</sc-raw-td>
+                  <sc-raw-td><span class="chip" style="background:{{r.autoBg}};color:{{r.autoColor}};">{{r.auto}}</span></sc-raw-td>
+                  <sc-raw-td class="mono">{{r.countdown}}</sc-raw-td>
+                </sc-raw-tr>
+              </sc-for>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+      </sc-if>
+
+      <!-- ROLES -->
+      <sc-if value="{{isRoles}}" hint-placeholder-val="{{false}}">
+        <div class="card" style="overflow:hidden;">
+          <sc-raw-table>
+            <sc-raw-thead><sc-raw-tr><sc-raw-th>Role</sc-raw-th><sc-raw-th>Live map</sc-raw-th><sc-raw-th>Acknowledge alerts</sc-raw-th><sc-raw-th>Approve requests</sc-raw-th><sc-raw-th>Restricted fields</sc-raw-th><sc-raw-th>Manage retention</sc-raw-th></sc-raw-tr></sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-for list="{{roles}}" as="r">
+                <sc-raw-tr>
+                  <sc-raw-td style="color:var(--ink-0);font-weight:500;">{{r.name}}</sc-raw-td>
+                  <sc-raw-td>{{r.map}}</sc-raw-td><sc-raw-td>{{r.ack}}</sc-raw-td><sc-raw-td>{{r.approve}}</sc-raw-td><sc-raw-td>{{r.restricted}}</sc-raw-td><sc-raw-td>{{r.retention}}</sc-raw-td>
+                </sc-raw-tr>
+              </sc-for>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+      </sc-if>
+
+      <!-- ACTIVITY LOG -->
+      <sc-if value="{{isLog}}" hint-placeholder-val="{{false}}">
+        <div class="card" style="padding:14px 16px;">
+          <input type="text" value="{{logQuery}}" sc-camel-on-change="{{onLogQuery}}" placeholder="Filter by actor or action…" style="width:100%;max-width:320px;background:var(--navy-850);border:1px solid var(--navy-700);border-radius:7px;color:var(--ink-0);font-size:12.5px;padding:8px 10px;">
+        </div>
+        <div class="card" style="overflow:hidden;">
+          <sc-raw-table>
+            <sc-raw-thead><sc-raw-tr><sc-raw-th>Time</sc-raw-th><sc-raw-th>Actor</sc-raw-th><sc-raw-th>Action</sc-raw-th><sc-raw-th>Record</sc-raw-th><sc-raw-th>Reason</sc-raw-th><sc-raw-th>Hash</sc-raw-th></sc-raw-tr></sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-for list="{{log}}" as="l">
+                <sc-raw-tr><sc-raw-td class="mono">{{l.time}}</sc-raw-td><sc-raw-td>{{l.actor}}</sc-raw-td><sc-raw-td>{{l.action}}</sc-raw-td><sc-raw-td>{{l.record}}</sc-raw-td><sc-raw-td>{{l.reason}}</sc-raw-td>
+                  <sc-raw-td class="mono" style="color:var(--green);">{{l.hash}}</sc-raw-td>
+                </sc-raw-tr>
+              </sc-for>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+        <div class="row" style="gap:7px;">
+          <svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"></path><path d="M9 12 L11 14 L15.5 9.5"></path></svg>
+          <span class="mono" style="font-size:11px;color:var(--ink-muted);">Chain verified - no gaps or edits detected in this log segment.</span>
+        </div>
+      </sc-if>
+
+      <!-- APPROVAL HISTORY -->
+      <sc-if value="{{isHistory}}" hint-placeholder-val="{{false}}">
+        <div class="card" style="overflow:hidden;">
+          <sc-raw-table>
+            <sc-raw-thead><sc-raw-tr><sc-raw-th>Request</sc-raw-th><sc-raw-th>Agency</sc-raw-th><sc-raw-th>Purpose</sc-raw-th><sc-raw-th>Approver</sc-raw-th><sc-raw-th>Status</sc-raw-th><sc-raw-th>Outcome</sc-raw-th></sc-raw-tr></sc-raw-thead>
+            <sc-raw-tbody>
+              <sc-for list="{{history}}" as="h">
+                <sc-raw-tr><sc-raw-td class="mono">{{h.id}}</sc-raw-td><sc-raw-td>{{h.agency}}</sc-raw-td><sc-raw-td style="max-width:220px;">{{h.purpose}}</sc-raw-td><sc-raw-td>{{h.approver}}</sc-raw-td>
+                  <sc-raw-td><span class="chip" style="background:{{h.bg}};color:{{h.color}};">{{h.status}}</span></sc-raw-td>
+                  <sc-raw-td style="color:var(--ink-muted);">{{h.outcome}}</sc-raw-td>
+                </sc-raw-tr>
+              </sc-for>
+            </sc-raw-tbody>
+          </sc-raw-table>
+        </div>
+      </sc-if>
+
+      <!-- METRICS -->
+      <sc-if value="{{isMetrics}}" hint-placeholder-val="{{false}}">
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;">
+          <sc-for list="{{metrics}}" as="m">
+            <div class="stat">
+              <div class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:8px;">{{m.label}}</div>
+              <div style="font-size:24px;font-weight:700;">{{m.value}}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div class="card" style="padding:20px;">
+          <div class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:14px;">Requests by month</div>
+          <div style="display:flex;align-items:flex-end;gap:18px;height:90px;">
+            <sc-for list="{{monthBars}}" as="b">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-grow:1;">
+                <div style="width:100%;max-width:56px;height:{{b.h}}px;background:var(--cyan);border-radius:4px 4px 0 0;"></div>
+                <div class="mono" style="font-size:10.5px;color:var(--ink-muted);">{{b.label}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- EMERGENCY ACCESS -->
+      <sc-if value="{{isEmergency}}" hint-placeholder-val="{{false}}">
+        <div class="card" style="padding:22px;">
+          <div class="row" style="justify-content:space-between;margin-bottom:16px;">
+            <div style="font-size:14px;font-weight:600;">Emergency access ("break-glass") procedure</div>
+            <span class="chip" style="background:{{emBg}};color:{{emColor}};">{{emStatus}}</span>
+          </div>
+          <ol style="margin:0 0 18px 0;padding-left:20px;font-size:12.5px;color:var(--ink-300);line-height:2;">
+            <li>Declare an emergency and select a justification category (e.g. imminent safety risk).</li>
+            <li>Access is granted immediately, scoped only to the active incident window.</li>
+            <li>Every action taken under emergency access is logged in real time and visibly flagged.</li>
+            <li>A mandatory after-action review must be completed within 24 hours by the Privacy Officer.</li>
+            <li>Findings are published to transparency metrics regardless of outcome.</li>
+          </ol>
+          <div class="mono" style="font-size:11.5px;color:var(--ink-muted);margin-bottom:16px;">Last used: Aug 2, 2026 · after-action review completed Aug 3, 2026</div>
+
+          <sc-if value="{{emIdle}}" hint-placeholder-val="{{true}}">
+            <button class="btn btn-danger" sc-camel-on-click="{{startEmergency}}">Initiate emergency access</button>
+          </sc-if>
+
+          <sc-if value="{{emForm}}" hint-placeholder-val="{{false}}">
+            <div class="card" style="background:var(--navy-850);padding:16px;">
+              <div style="font-size:12.5px;font-weight:600;margin-bottom:10px;">Declare emergency access</div>
+              <textarea rows="2" value="{{emReason}}" sc-camel-on-change="{{onEmReason}}" placeholder="Justification - e.g. active safety-of-life incident requiring immediate access to live identifiers." style="width:100%;background:var(--navy-900);border:1px solid var(--navy-700);border-radius:7px;color:var(--ink-0);font-size:12.5px;padding:10px;margin-bottom:10px;"></textarea>
+              <div class="row" style="gap:10px;">
+                <button class="btn btn-danger" sc-camel-on-click="{{confirmEmergency}}" disabled="{{emReasonInvalid}}">Activate - will be logged &amp; reviewed</button>
+                <button class="btn" sc-camel-on-click="{{cancelEmergency}}">Cancel</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{emActive}}" hint-placeholder-val="{{false}}">
+            <div class="card" style="background:rgba(228,167,60,0.1);border-color:var(--amber);padding:14px;">
+              <div style="font-size:12.5px;color:var(--amber);font-weight:600;margin-bottom:4px;">Emergency access active</div>
+              <div style="font-size:12px;color:var(--ink-300);">Logged at {{emTime}}. After-action review is due by {{emDue}} and will be conducted by the City Privacy Officer.</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</template>
+<script src="/dc.js"></script>
+<script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'retention', logQuery: '', emState: 'idle', emReason: '' };
+    this.pickTab = this.pickTab.bind(this);
+    this.onLogQuery = this.onLogQuery.bind(this);
+    this.startEmergency = this.startEmergency.bind(this);
+    this.cancelEmergency = this.cancelEmergency.bind(this);
+    this.confirmEmergency = this.confirmEmergency.bind(this);
+    this.onEmReason = this.onEmReason.bind(this);
+    this.fullLog = [
+      { time: '8:47 PM', actor: 'M. Alvarez', action: 'Viewed drone detail', record: 'DRN-2048', reason: 'Active incident monitoring', hash: 'a1f9c3' },
+      { time: '8:44 PM', actor: 'System', action: 'Alert generated', record: 'AL-1 / DRN-2048', reason: 'Automated - restricted-zone entry', hash: '7e0b21' },
+      { time: '8:31 PM', actor: 'M. Alvarez', action: 'Acknowledged alert', record: 'AL-2 / DRN-1183', reason: 'Routine monitoring', hash: '44dd0a' },
+      { time: '8:15 PM', actor: 'T. Osei', action: 'Approved data request', record: 'REQ-2026-0311', reason: 'Case NPD-2026-04188', hash: '9c2f6e' },
+      { time: '6:02 PM', actor: 'R. Chen', action: 'Reviewed audit log', record: '-', reason: 'Weekly compliance review', hash: '3b7a58' },
+      { time: 'Yesterday 7:40 PM', actor: 'M. Alvarez', action: 'Created incident report', record: 'DRN-6154', reason: 'Unidentified drone, monitoring only', hash: '0dfe12' },
+      { time: 'Yesterday 2:12 PM', actor: 'System', action: 'Auto-deleted records', record: '41 flight records', reason: 'Scheduled 30-day retention', hash: '66acb9' },
+      { time: 'Sep 14', actor: 'T. Osei', action: 'Denied data request', record: 'REQ-2026-0299', reason: 'Insufficient legal basis documented', hash: 'ff3a02' }
+    ];
+  }
+  pickTab(t) { this.setState({ tab: t }); }
+  onLogQuery(e) { this.setState({ logQuery: e && e.target ? e.target.value : '' }); }
+  startEmergency() { this.setState({ emState: 'form' }); }
+  cancelEmergency() { this.setState({ emState: 'idle', emReason: '' }); }
+  onEmReason(e) { this.setState({ emReason: e && e.target ? e.target.value : '' }); }
+  confirmEmergency() { this.setState({ emState: 'active' }); }
+  renderVals() {
+    var self = this;
+    var tabDefs = [
+      { key: 'retention', label: 'Retention' }, { key: 'roles', label: 'Access & roles' }, { key: 'log', label: 'Activity log' },
+      { key: 'history', label: 'Approval history' }, { key: 'metrics', label: 'Transparency' }, { key: 'emergency', label: 'Emergency access' }
+    ];
+    var tabs = tabDefs.map(function (t) { return { label: t.label, cls: self.state.tab === t.key ? 'active' : '', pick: function () { self.pickTab(t.key); } }; });
+    var q = (this.state.logQuery || '').toLowerCase();
+    var log = this.fullLog.filter(function (l) { return !q || l.actor.toLowerCase().indexOf(q) !== -1 || l.action.toLowerCase().indexOf(q) !== -1; });
+    var yn = function (b) { return b ? 'Yes' : 'No'; };
+    return {
+      tabs: tabs,
+      isRetention: this.state.tab === 'retention', isRoles: this.state.tab === 'roles', isLog: this.state.tab === 'log',
+      isHistory: this.state.tab === 'history', isMetrics: this.state.tab === 'metrics', isEmergency: this.state.tab === 'emergency',
+      retention: [
+        { category: 'Flight telemetry & positions', period: '30 days', auto: 'Enabled', autoBg: 'rgba(51,190,125,0.14)', autoColor: '#33BE7D', countdown: 'Next batch in 4 days' },
+        { category: 'Detection sensor logs', period: '30 days', auto: 'Enabled', autoBg: 'rgba(51,190,125,0.14)', autoColor: '#33BE7D', countdown: 'Next batch in 12 days' },
+        { category: 'Alert & incident records', period: '180 days', auto: 'Enabled', autoBg: 'rgba(51,190,125,0.14)', autoColor: '#33BE7D', countdown: 'Next batch in 142 days' },
+        { category: 'Acknowledged low-severity logs', period: '14 days', auto: 'Enabled', autoBg: 'rgba(51,190,125,0.14)', autoColor: '#33BE7D', countdown: 'Next batch in 2 days' },
+        { category: 'Audit & access logs', period: '7 years (regulatory hold)', auto: 'Disabled', autoBg: 'rgba(228,167,60,0.14)', autoColor: '#E4A73C', countdown: 'Not scheduled - regulatory retention' },
+        { category: 'Approved data-request exports', period: 'Until requester-set expiration', auto: 'Enabled', autoBg: 'rgba(51,190,125,0.14)', autoColor: '#33BE7D', countdown: 'Per-request expiration date' }
+      ],
+      roles: [
+        { name: 'Operations Lead (M. Alvarez)', map: yn(true), ack: yn(true), approve: yn(false), restricted: yn(false), retention: yn(false) },
+        { name: 'Deputy Director of Ops (R. Chen)', map: yn(true), ack: yn(true), approve: yn(true), restricted: yn(false), retention: yn(false) },
+        { name: 'City Privacy Officer (T. Osei)', map: yn(false), ack: yn(false), approve: yn(true), restricted: 'Case-by-case', retention: yn(true) },
+        { name: 'System Administrator', map: yn(false), ack: yn(false), approve: yn(false), restricted: yn(false), retention: yn(true) }
+      ],
+      logQuery: this.state.logQuery, onLogQuery: this.onLogQuery, log: log,
+      history: [
+        { id: 'REQ-2026-0311', agency: 'Northbridge PD - Air Safety Unit', purpose: 'Investigate stadium restricted-zone incident', approver: 'T. Osei', status: 'Approved', bg: 'rgba(51,190,125,0.14)', color: '#33BE7D', outcome: 'Expired Sep 25 · records deleted' },
+        { id: 'REQ-2026-0299', agency: 'County Emergency Mgmt.', purpose: 'Broad historical review, unspecified case', approver: 'T. Osei', status: 'Denied', bg: 'rgba(225,72,79,0.14)', color: '#E1484F', outcome: 'Insufficient legal basis' },
+        { id: 'REQ-2026-0287', agency: 'State Fire Marshal', purpose: 'Post-incident review, warehouse response corridor', approver: 'R. Chen', status: 'Approved', bg: 'rgba(51,190,125,0.14)', color: '#33BE7D', outcome: 'Expired Sep 17 · records deleted' },
+        { id: 'REQ-2026-0270', agency: 'Northbridge PD', purpose: 'Traffic collision investigation, intersection footage', approver: 'T. Osei', status: 'Approved', bg: 'rgba(51,190,125,0.14)', color: '#33BE7D', outcome: 'Expired Sep 10 · records deleted' },
+        { id: 'REQ-2026-0254', agency: 'FAA Regional Office', purpose: 'Airspace compliance audit, Sector 1', approver: 'R. Chen', status: 'Pending', bg: 'rgba(228,167,60,0.14)', color: '#E4A73C', outcome: 'Awaiting review' }
+      ],
+      metrics: [
+        { label: 'Requests this quarter', value: '7' }, { label: 'Approved', value: '5' }, { label: 'Denied', value: '1' },
+        { label: 'Avg. approval time', value: '6.4 hrs' }, { label: 'Auto-deleted on schedule', value: '100%' }, { label: 'Active investigator accounts', value: '3' },
+        { label: 'Pending requests', value: '1' }, { label: 'Emergency accesses (90d)', value: '1' }
+      ],
+      monthBars: [{ label: 'Jul', h: 40 }, { label: 'Aug', h: 26 }, { label: 'Sep', h: 55 }],
+      emStatus: this.state.emState === 'active' ? 'Active emergency access' : 'No active emergency access',
+      emBg: this.state.emState === 'active' ? 'rgba(228,167,60,0.16)' : 'rgba(51,190,125,0.14)',
+      emColor: this.state.emState === 'active' ? '#E4A73C' : '#33BE7D',
+      emIdle: this.state.emState === 'idle', emForm: this.state.emState === 'form', emActive: this.state.emState === 'active',
+      emReason: this.state.emReason, onEmReason: this.onEmReason,
+      emReasonInvalid: (this.state.emReason || '').trim().length < 15,
+      startEmergency: this.startEmergency, cancelEmergency: this.cancelEmergency, confirmEmergency: this.confirmEmergency,
+      emTime: '8:47 PM', emDue: 'Tomorrow, 8:47 PM'
+    };
+  }
+}
+DC.mount(Component);
+</script>
+</body>
+</html>

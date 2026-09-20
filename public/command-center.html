@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Civic Air is a prototype for accountable low-altitude drone coordination in cities. All data shown is simulated.">
+<title>Civic Air - Command Center</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c6f09ee0e0a24b7c.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/7b59d6bf7f8b8408.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/0a8b854cc18641bd.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/f1050dc5317b4343.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/c36f509c0a8f9f85.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/311098be73eac339.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/d524dc8ff6dbf7ed.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/b2529fba93fd07a5.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/77f03e26f981c582.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/a76f53ca6612e7b3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/f746246b6b0b641f.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/b814a03d7e57b062.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/69744cabbccc9faf.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/1b6b18fd0fd240bc.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/ad4580d8cb4b5f62.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/c01b3de8c8058462.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/5bac72520e0a9a56.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/a29d4e6345cdb7e2.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/526a4dd36c3af41f.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/ae1d854fefa1167a.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("/fonts/056e4e2459f57a00.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  :root{
+    --navy-950:#0A0F1A;--navy-900:#0D1526;--navy-850:#101B30;--navy-800:#131F38;--navy-700:#1B2A47;--navy-600:#233757;--navy-500:#31496F;
+    --ink-0:#EDF1F7;--ink-300:#B7C4D9;--ink-500:#8296B4;--ink-muted:#64789B;
+    --cyan:#2FC4DE;--green:#33BE7D;--amber:#E4A73C;--red:#E1484F;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:var(--navy-950);}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .navlink{display:flex;align-items:center;gap:11px;padding:9px 16px;margin:0 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-500);}
+  .navlink.active{background:var(--navy-800);color:var(--ink-0);}
+  .navlink:hover{color:var(--ink-0);}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;}
+  .card{background:var(--navy-900);border:1px solid var(--navy-700);border-radius:12px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:7px;font-size:12.5px;font-weight:600;border:1px solid var(--navy-600);background:var(--navy-800);color:var(--ink-0);cursor:pointer;}
+  .btn:hover{border-color:var(--cyan);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .btn-primary{background:var(--cyan);border-color:var(--cyan);color:#06222A;}
+  .btn-primary:hover{background:#4FD3E8;}
+  .segbtn{padding:6px 12px;font-size:11.5px;font-weight:600;border-radius:6px;background:transparent;border:1px solid transparent;color:var(--ink-500);cursor:pointer;}
+  .segbtn.active{background:var(--navy-700);color:var(--ink-0);}
+  .icnbtn{width:30px;height:30px;border-radius:7px;background:var(--navy-800);border:1px solid var(--navy-600);color:var(--ink-0);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .icnbtn:hover{border-color:var(--cyan);}
+  .row{display:flex;align-items:center;}
+  @keyframes pulse{0%{opacity:0.9;}50%{opacity:0.25;}100%{opacity:0.9;}}
+  .pulse{animation:pulse 1.6s ease-in-out infinite;}
+  .scroll::-webkit-scrollbar{width:6px;}
+  .scroll::-webkit-scrollbar-thumb{background:var(--navy-600);border-radius:6px;}
+</style>
+</head>
+<body>
+<div id="dc-root"></div>
+<template id="dc-template">
+<div style="width:100%;min-height:100vh;background:var(--navy-950);color:var(--ink-0);display:flex;flex-direction:row;">
+
+  <!-- LEFT NAV -->
+  <nav style="width:240px;flex-shrink:0;background:var(--navy-900);border-right:1px solid var(--navy-700);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;">
+    <div style="padding:0 24px 22px 24px;display:flex;align-items:center;gap:10px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:var(--navy-850);border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2FC4DE" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="2.5" fill="#2FC4DE" stroke="none"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:14.5px;">Civic Air</div>
+        <div class="mono" style="font-size:9.5px;color:var(--ink-muted);letter-spacing:0.4px;text-transform:uppercase;">Northbridge Ops</div>
+      </div>
+    </div>
+    <a href="/command-center" class="navlink active"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8"></circle><line x1="12" y1="4" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="20"></line><line x1="4" y1="12" x2="8" y2="12"></line><line x1="16" y1="12" x2="20" y2="12"></line></svg>Command Center</a>
+    <a href="/alerts" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 4 L21 19 L3 19 Z"></path><line x1="12" y1="10" x2="12" y2="14.5"></line><circle cx="12" cy="16.5" r="0.6" fill="currentColor"></circle></svg>Alerts</a>
+    <a href="/flight-history" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8.5"></circle><line x1="12" y1="7" x2="12" y2="12"></line><line x1="12" y1="12" x2="15.5" y2="14"></line></svg>Flight History</a>
+    <a href="/data-request" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="5" y="3" width="14" height="18" rx="2"></rect><line x1="8.5" y1="8" x2="15.5" y2="8"></line><line x1="8.5" y1="12" x2="15.5" y2="12"></line><line x1="8.5" y1="16" x2="12.5" y2="16"></line></svg>Data Requests</a>
+    <a href="/privacy-audit" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3 L19 6 V11 C19 16 16 19.5 12 21 C8 19.5 5 16 5 11 V6 Z"></path><path d="M9 12 L11 14 L15.5 9.5"></path></svg>Privacy &amp; Audit</a>
+    <a href="/" class="navlink"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 13 L8 9 L12 15 L16 7 L20 12"></path></svg>System Status</a>
+    <div style="margin-top:auto;padding:16px 24px 0 24px;border-top:1px solid var(--navy-800);">
+      <div class="row" style="gap:8px;margin-top:14px;">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--amber);"></div>
+        <div class="mono" style="font-size:10.5px;color:var(--ink-muted);">3 sensors · 1 degraded</div>
+      </div>
+      <div style="font-size:11.5px;color:var(--ink-500);margin-top:10px;">M. Alvarez</div>
+      <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Operations Lead · Authorized</div>
+    </div>
+  </nav>
+
+  <!-- RIGHT COLUMN -->
+  <div style="flex-grow:1;min-width:0;display:flex;flex-direction:column;">
+
+    <!-- TOP BAR -->
+    <div style="height:64px;flex-shrink:0;background:var(--navy-900);border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;">
+      <div class="row" style="gap:18px;">
+        <div style="font-weight:700;font-size:14px;">Northbridge</div>
+        <div class="mono" style="font-size:12.5px;color:var(--ink-500);">{{clock}}</div>
+      </div>
+      <div class="row" style="gap:22px;">
+        <div class="row" style="gap:7px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--amber);"></div><span style="font-size:12px;color:var(--ink-500);">Sensors: 3/4 · 1 degraded</span></div>
+        <div class="row" style="gap:7px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--cyan);"></div><span style="font-size:12px;color:var(--ink-500);">18 active drones</span></div>
+        <div class="row" style="gap:7px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--red);"></div><span style="font-size:12px;color:var(--ink-500);">3 open alerts</span></div>
+        <div class="row" style="gap:8px;padding-left:18px;border-left:1px solid var(--navy-700);">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--navy-700);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;">MA</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;line-height:1.2;">M. Alvarez</div>
+            <div class="mono" style="font-size:9.5px;color:var(--ink-muted);">OPERATIONS LEAD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div style="flex-grow:1;display:flex;flex-direction:row;padding:20px;gap:20px;align-items:flex-start;">
+
+      <!-- MAP PANEL -->
+      <div class="card" style="flex-grow:1;min-width:0;overflow:hidden;">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--navy-700);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+          <div class="row" style="gap:14px;flex-wrap:wrap;">
+            <span class="chip" style="background:rgba(228,167,60,0.14);color:var(--amber);"><span style="width:5px;height:5px;border-radius:50%;background:var(--amber);"></span>Simulation mode</span>
+            <span class="mono" style="font-size:11px;color:var(--ink-muted);">18 active · 15 normal · 2 warning · 1 critical · 4 geofences</span>
+          </div>
+          <div class="row" style="gap:6px;">
+            <sc-for list="{{timeRanges}}" as="tr">
+              <button class="segbtn {{tr.cls}}" sc-camel-on-click="{{tr.pick}}">{{tr.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="position:relative;background:var(--navy-950);">
+          <svg sc-camel-view-box="{{viewBox}}" style="width:100%;height:560px;display:block;">
+            <defs>
+              <pattern id="grid" width="40" height="40" sc-camel-pattern-units="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#131F38" stroke-width="1"></path>
+              </pattern>
+            </defs>
+            <rect x="-400" y="-400" width="1800" height="1400" fill="url(#grid)"></rect>
+
+            <!-- river -->
+            <rect x="-40" y="330" width="1100" height="34" rx="17" fill="#101B30" transform="rotate(-6 500 340)"></rect>
+
+            <!-- streets -->
+            <g stroke="#1B2A47" stroke-width="10" opacity="{{geoOpacity}}">
+              <line x1="0" y1="120" x2="1000" y2="120"></line>
+              <line x1="0" y1="470" x2="1000" y2="470"></line>
+              <line x1="260" y1="0" x2="260" y2="640"></line>
+              <line x1="700" y1="0" x2="700" y2="640"></line>
+            </g>
+
+            <!-- geofences -->
+            <g style="opacity:{{geoOpacity}};">
+              <ellipse cx="150" cy="140" rx="130" ry="90" fill="rgba(47,196,222,0.06)" stroke="#2FC4DE" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="6 5"></ellipse>
+              <text x="150" y="230" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#7FB9C9">NORTHBRIDGE RGNL AIRPORT</text>
+
+              <circle cx="560" cy="260" r="72" fill="rgba(228,167,60,0.08)" stroke="#E4A73C" stroke-width="2" stroke-dasharray="7 5"></circle>
+              <text x="560" y="345" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#E4A73C">AURORA STADIUM · TEMP RESTRICTION</text>
+
+              <g transform="rotate(-10 810 415)">
+                <rect x="680" y="380" width="260" height="66" rx="33" fill="rgba(47,196,222,0.05)" stroke="#2FC4DE" stroke-opacity="0.4" stroke-width="1.5" stroke-dasharray="6 5"></rect>
+              </g>
+              <text x="810" y="470" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#7FB9C9">MERCY HOSPITAL CORRIDOR</text>
+
+              <circle cx="642" cy="205" r="26" fill="rgba(228,167,60,0.12)" stroke="#E4A73C" stroke-width="1.5" stroke-dasharray="4 4"></circle>
+              <text x="642" y="168" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#E4A73C">EMERGENCY SCENE</text>
+            </g>
+
+            <!-- selected route -->
+            <sc-if value="{{hasRoute}}" hint-placeholder-val="{{true}}">
+              <polyline points="{{routePoints}}" fill="none" stroke="{{selectedColor}}" stroke-width="2.5" stroke-dasharray="5 5" opacity="{{pathOpacity}}"></polyline>
+            </sc-if>
+
+            <!-- drones -->
+            <g opacity="{{droneOpacity}}">
+              <sc-for list="{{drones}}" as="d" hint-placeholder-count="10">
+                <g transform="{{d.markerTransform}}" style="cursor:pointer;" sc-camel-on-click="{{d.pick}}">
+                  <sc-if value="{{d.selected}}" hint-placeholder-val="{{false}}">
+                    <circle r="18" fill="none" stroke="{{d.color}}" stroke-width="2" class="pulse"></circle>
+                  </sc-if>
+                  <polygon points="0,-10 8,8 0,4 -8,8" fill="{{d.color}}" stroke="{{d.ring}}" stroke-width="{{d.ringWidth}}" stroke-dasharray="{{d.ringDash}}"></polygon>
+                </g>
+              </sc-for>
+            </g>
+          </svg>
+
+          <!-- layer control -->
+          <div class="card" style="position:absolute;top:14px;left:14px;padding:12px 14px;background:rgba(13,21,38,0.92);">
+            <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:8px;letter-spacing:0.4px;">Layers</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-300);"><input type="checkbox" checked="{{layerDrones}}" sc-camel-on-change="{{toggleDrones}}"> Drones</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-300);"><input type="checkbox" checked="{{layerGeo}}" sc-camel-on-change="{{toggleGeo}}"> Geofences</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-300);"><input type="checkbox" checked="{{layerPaths}}" sc-camel-on-change="{{togglePaths}}"> Flight paths</label>
+            </div>
+          </div>
+
+          <!-- zoom control -->
+          <div class="row" style="position:absolute;top:14px;right:14px;gap:6px;">
+            <button class="icnbtn" sc-camel-on-click="{{zoomOut}}" aria-label="Zoom out">−</button>
+            <div class="card mono" style="padding:0 10px;height:30px;display:flex;align-items:center;font-size:11.5px;background:rgba(13,21,38,0.92);">{{zoomLabel}}</div>
+            <button class="icnbtn" sc-camel-on-click="{{zoomIn}}" aria-label="Zoom in">+</button>
+          </div>
+
+          <!-- playback bar -->
+          <div class="row" style="position:absolute;bottom:14px;left:14px;right:14px;justify-content:space-between;background:rgba(13,21,38,0.92);border:1px solid var(--navy-700);border-radius:10px;padding:10px 16px;">
+            <div class="row" style="gap:10px;">
+              <button class="icnbtn" sc-camel-on-click="{{togglePlay}}" aria-label="{{playLabel}}">
+                <sc-if value="{{playing}}" hint-placeholder-val="{{true}}">
+                  <svg width="12" height="12" sc-camel-view-box="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="5" height="16"></rect><rect x="14" y="4" width="5" height="16"></rect></svg>
+                </sc-if>
+                <sc-if value="{{notPlaying}}" hint-placeholder-val="{{false}}">
+                  <svg width="12" height="12" sc-camel-view-box="0 0 24 24" fill="currentColor"><path d="M6 4 L20 12 L6 20 Z"></path></svg>
+                </sc-if>
+              </button>
+              <div class="row" style="gap:7px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:{{statusDotColor}};" class="{{statusDotCls}}"></div>
+                <span class="mono" style="font-size:11.5px;color:var(--ink-300);">{{playbackLabel}}</span>
+              </div>
+            </div>
+            <div class="mono" style="font-size:10.5px;color:var(--ink-muted);">Fictional map data · Northbridge simulation grid</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div style="width:380px;flex-shrink:0;display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Alerts -->
+        <div class="card">
+          <button sc-camel-on-click="{{toggleAlerts}}" style="width:100%;background:none;border:none;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:inherit;">
+            <span class="row" style="gap:8px;font-size:13px;font-weight:600;"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M12 4 L21 19 L3 19 Z"></path></svg>Active Alerts (3)</span>
+            <span class="mono" style="font-size:12px;color:var(--ink-muted);">{{alertsChevron}}</span>
+          </button>
+          <sc-if value="{{alertsExpanded}}" hint-placeholder-val="{{true}}">
+            <div style="border-top:1px solid var(--navy-700);">
+              <sc-for list="{{alerts}}" as="a" hint-placeholder-count="3">
+                <div style="padding:12px 16px;border-bottom:1px solid var(--navy-800);cursor:pointer;" sc-camel-on-click="{{a.focus}}">
+                  <div class="row" style="justify-content:space-between;margin-bottom:5px;">
+                    <span class="chip" style="background:{{a.bg}};color:{{a.color}};">{{a.severity}}</span>
+                    <span class="mono" style="font-size:10.5px;color:var(--ink-muted);">{{a.time}}</span>
+                  </div>
+                  <div style="font-size:12.5px;font-weight:600;margin-bottom:2px;">{{a.title}}</div>
+                  <div style="font-size:11.5px;color:var(--ink-muted);margin-bottom:6px;">{{a.location}} · {{a.droneId}}</div>
+                  <div class="row" style="justify-content:space-between;">
+                    <span class="mono" style="font-size:10px;color:var(--ink-muted);text-transform:uppercase;">{{a.status}} · {{a.assigned}}</span>
+                    <button class="btn" style="padding:4px 9px;font-size:10.5px;" sc-camel-on-click="{{a.ack}}" disabled="{{a.ackDisabled}}">{{a.ackLabel}}</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- Fleet -->
+        <div class="card">
+          <button sc-camel-on-click="{{toggleFleet}}" style="width:100%;background:none;border:none;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:inherit;">
+            <span style="font-size:13px;font-weight:600;">Fleet (showing 10 of 18)</span>
+            <span class="mono" style="font-size:12px;color:var(--ink-muted);">{{fleetChevron}}</span>
+          </button>
+          <sc-if value="{{fleetExpanded}}" hint-placeholder-val="{{true}}">
+            <div class="scroll" style="border-top:1px solid var(--navy-700);max-height:220px;overflow-y:auto;">
+              <sc-for list="{{drones}}" as="d" hint-placeholder-count="10">
+                <div sc-camel-on-click="{{d.pick}}" style="padding:9px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;background:{{d.rowBg}};">
+                  <div style="width:7px;height:7px;border-radius:50%;background:{{d.color}};flex-shrink:0;"></div>
+                  <div style="min-width:0;flex-grow:1;">
+                    <div class="mono" style="font-size:12px;font-weight:600;">{{d.id}}</div>
+                    <div style="font-size:10.5px;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{d.operatorCategory}}</div>
+                  </div>
+                  <div class="mono" style="font-size:10px;color:var(--ink-muted);">{{d.altitude}}ft</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- Selected drone detail -->
+        <div class="card" style="padding:18px;">
+          <div class="row" style="justify-content:space-between;margin-bottom:4px;">
+            <div class="mono" style="font-size:16px;font-weight:700;">{{sd.id}}</div>
+            <span class="chip" style="background:{{sd.statusBg}};color:{{sd.statusColor}};">{{sd.status}}</span>
+          </div>
+          <div style="font-size:12px;color:var(--ink-muted);margin-bottom:16px;">{{sd.operatorCategory}}</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Altitude</div><div class="mono" style="font-size:14px;font-weight:600;">{{sd.altitude}} ft</div></div>
+            <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Speed</div><div class="mono" style="font-size:14px;font-weight:600;">{{sd.speed}} mph</div></div>
+            <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Direction</div><div class="mono" style="font-size:14px;font-weight:600;">{{sd.direction}}</div></div>
+            <div><div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Signal</div><div class="mono" style="font-size:14px;font-weight:600;color:{{sd.signalColor}};">{{sd.signal}}</div></div>
+          </div>
+
+          <div class="row" style="justify-content:space-between;font-size:11px;color:var(--ink-muted);margin-bottom:14px;">
+            <span>First detected {{sd.firstDetected}}</span><span>Updated {{sd.lastUpdated}}</span>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <div class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:6px;">Nearby restricted zones</div>
+            <sc-for list="{{sd.zones}}" as="z">
+              <div style="font-size:12px;color:var(--ink-300);padding:3px 0;">· {{z}}</div>
+            </sc-for>
+          </div>
+
+          <div class="card" style="background:var(--navy-850);padding:12px;margin-bottom:14px;">
+            <div class="row" style="justify-content:space-between;margin-bottom:6px;">
+              <span class="mono" style="font-size:9.5px;color:var(--ink-muted);text-transform:uppercase;">Risk score</span>
+              <span class="mono" style="font-size:15px;font-weight:700;color:{{sd.riskColor}};">{{sd.riskScore}}/100</span>
+            </div>
+            <div style="font-size:11.5px;color:var(--ink-300);line-height:1.5;">{{sd.riskWhy}}</div>
+          </div>
+
+          <sc-if value="{{hasActionMessage}}" hint-placeholder-val="{{false}}">
+            <div class="card" style="padding:10px 12px;margin-bottom:12px;background:{{actionMessage.bg}};border-color:{{actionMessage.border}};">
+              <div style="font-size:12px;color:{{actionMessage.color}};font-weight:600;">{{actionMessage.text}}</div>
+            </div>
+          </sc-if>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <button class="btn" sc-camel-on-click="{{doMonitor}}">Monitor</button>
+            <button class="btn" sc-camel-on-click="{{doIncident}}">Create incident</button>
+            <button class="btn" sc-camel-on-click="{{doDismiss}}" disabled="{{sd.dismissDisabled}}">Dismiss alert</button>
+            <button class="btn" sc-camel-on-click="{{doRequest}}">Request info</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+<script src="/dc.js"></script>
+<script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var drones = [
+      { id: 'DRN-2048', status: 'Unidentified', operatorCategory: 'Unknown - not linked to registry', alertLevel: 'critical', x: 610, y: 205, heading: 45, altitude: 410, speed: 28, direction: 'Northeast (048°)', signal: 'Fair', firstDetected: '8:40 PM', lastUpdated: '8:47 PM', zones: ['Aurora Stadium - Temporary Event Restriction (active violation)', 'Northbridge Rgnl Airport - 2.4 mi'], riskScore: 78, riskWhy: 'Entered an active temporary flight restriction over a public event and has not responded to broadcast identification. Speed and altitude are otherwise within normal range.', route: [[560,260],[585,235],[610,205]] },
+      { id: 'DRN-1183', status: 'Registered', operatorCategory: 'Public Utility Inspection', alertLevel: 'warning', x: 760, y: 400, heading: 120, altitude: 620, speed: 14, direction: 'Southeast (140°)', signal: 'Strong', firstDetected: '8:02 PM', lastUpdated: '8:31 PM', zones: ['Mercy Hospital Corridor - 400 ft ceiling'], riskScore: 44, riskWhy: 'Flying above the posted ceiling for the hospital corridor. No restricted-zone entry; operator has been notified by broadcast.', route: [[700,380],[760,400]] },
+      { id: 'DRN-0876', status: 'Registered', operatorCategory: 'Commercial - Aerial Photography', alertLevel: 'warning', x: 340, y: 480, heading: 200, altitude: 260, speed: 9, direction: 'Southwest (200°)', signal: 'Weak', firstDetected: '7:48 PM', lastUpdated: '8:15 PM', zones: ['None currently'], riskScore: 31, riskWhy: 'Telemetry signal has degraded intermittently for the last 12 minutes. Last confirmed position is within normal operating bounds.', route: [[380,440],[340,480]] },
+      { id: 'DRN-3312', status: 'Registered', operatorCategory: 'Commercial - Real Estate Photography', alertLevel: 'normal', x: 230, y: 300, heading: 300, altitude: 180, speed: 11, direction: 'Northwest (300°)', signal: 'Strong', firstDetected: '7:20 PM', lastUpdated: '8:46 PM', zones: ['None'], riskScore: 6, riskWhy: 'Operating normally within registered flight parameters.', route: [[260,330],[230,300]] },
+      { id: 'DRN-4470', status: 'Registered', operatorCategory: 'Public Safety - Traffic Monitoring', alertLevel: 'normal', x: 420, y: 150, heading: 60, altitude: 300, speed: 18, direction: 'Northeast (060°)', signal: 'Strong', firstDetected: '6:55 PM', lastUpdated: '8:46 PM', zones: ['None'], riskScore: 4, riskWhy: 'Operating normally within registered flight parameters.', route: [[390,180],[420,150]] },
+      { id: 'DRN-5561', status: 'Registered', operatorCategory: 'News Media - ENG', alertLevel: 'normal', x: 850, y: 180, heading: 250, altitude: 350, speed: 22, direction: 'Southwest (250°)', signal: 'Strong', firstDetected: '8:05 PM', lastUpdated: '8:47 PM', zones: ['None'], riskScore: 9, riskWhy: 'Operating normally within registered flight parameters.', route: [[880,150],[850,180]] },
+      { id: 'DRN-6620', status: 'Registered', operatorCategory: 'Hobbyist - Recreational', alertLevel: 'normal', x: 120, y: 520, heading: 10, altitude: 90, speed: 6, direction: 'North (010°)', signal: 'Fair', firstDetected: '8:22 PM', lastUpdated: '8:45 PM', zones: ['None'], riskScore: 12, riskWhy: 'Low-altitude recreational flight, well clear of restricted zones.', route: [[120,560],[120,520]] },
+      { id: 'DRN-7734', status: 'Registered', operatorCategory: 'Delivery - Pilot Program', alertLevel: 'normal', x: 900, y: 500, heading: 170, altitude: 220, speed: 24, direction: 'South (170°)', signal: 'Strong', firstDetected: '8:30 PM', lastUpdated: '8:47 PM', zones: ['None'], riskScore: 7, riskWhy: 'Operating normally within registered flight parameters.', route: [[900,460],[900,500]] },
+      { id: 'DRN-8845', status: 'Registered', operatorCategory: 'Agricultural Survey', alertLevel: 'normal', x: 480, y: 560, heading: 330, altitude: 150, speed: 13, direction: 'Northwest (330°)', signal: 'Fair', firstDetected: '7:10 PM', lastUpdated: '8:44 PM', zones: ['None'], riskScore: 5, riskWhy: 'Operating normally within registered flight parameters.', route: [[510,590],[480,560]] },
+      { id: 'DRN-9902', status: 'Authorized Emergency', operatorCategory: 'Emergency Response - Fire Dept.', alertLevel: 'normal', x: 730, y: 90, heading: 140, altitude: 400, speed: 30, direction: 'Southeast (140°)', signal: 'Strong', firstDetected: '8:44 PM', lastUpdated: '8:47 PM', zones: ['None'], riskScore: 3, riskWhy: 'Authorized emergency flight; automatically cleared for elevated priority.', route: [[700,60],[730,90]] }
+    ];
+    this.drones = drones;
+    this.state = {
+      selectedId: 'DRN-2048',
+      alertsExpanded: true,
+      fleetExpanded: true,
+      layerDrones: true, layerGeo: true, layerPaths: true,
+      zoom: 1,
+      timeRange: 'LIVE',
+      playing: true,
+      simSeconds: 20 * 3600 + 47 * 60,
+      actionMessage: null,
+      alerts: [
+        { id: 'AL-1', droneId: 'DRN-2048', severity: 'Critical', title: 'Restricted-zone entry', location: 'Aurora Stadium', time: '8:42 PM', status: 'Open', assigned: 'Ops Team Alpha' },
+        { id: 'AL-2', droneId: 'DRN-1183', severity: 'Warning', title: 'Unsafe altitude', location: 'Mercy Hospital Corridor', time: '8:31 PM', status: 'Acknowledged', assigned: 'Ops Team Bravo' },
+        { id: 'AL-3', droneId: 'DRN-0876', severity: 'Warning', title: 'Signal degrading', location: 'Sector 4', time: '8:15 PM', status: 'Open', assigned: 'Unassigned' }
+      ]
+    };
+    this.select = this.select.bind(this);
+    this.toggleAlerts = this.toggleAlerts.bind(this);
+    this.toggleFleet = this.toggleFleet.bind(this);
+    this.toggleDrones = this.toggleDrones.bind(this);
+    this.toggleGeo = this.toggleGeo.bind(this);
+    this.togglePaths = this.togglePaths.bind(this);
+    this.zoomIn = this.zoomIn.bind(this);
+    this.zoomOut = this.zoomOut.bind(this);
+    this.togglePlay = this.togglePlay.bind(this);
+    this.doMonitor = this.doMonitor.bind(this);
+    this.doIncident = this.doIncident.bind(this);
+    this.doDismiss = this.doDismiss.bind(this);
+    this.doRequest = this.doRequest.bind(this);
+  }
+  componentDidMount() {
+    this._t = setInterval(() => { this.setState({ simSeconds: this.state.simSeconds + 1 }); }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this._t); }
+  select(id) { this.setState({ selectedId: id, actionMessage: null }); }
+  toggleAlerts() { this.setState({ alertsExpanded: !this.state.alertsExpanded }); }
+  toggleFleet() { this.setState({ fleetExpanded: !this.state.fleetExpanded }); }
+  toggleDrones() { this.setState({ layerDrones: !this.state.layerDrones }); }
+  toggleGeo() { this.setState({ layerGeo: !this.state.layerGeo }); }
+  togglePaths() { this.setState({ layerPaths: !this.state.layerPaths }); }
+  zoomIn() { this.setState({ zoom: Math.min(2, this.state.zoom + 0.25) }); }
+  zoomOut() { this.setState({ zoom: Math.max(0.6, this.state.zoom - 0.25) }); }
+  togglePlay() { this.setState({ playing: !this.state.playing, timeRange: 'LIVE' }); }
+  pickRange(r) { this.setState({ timeRange: r, playing: r === 'LIVE' }); }
+  ackAlert(id) {
+    var alerts = this.state.alerts.map(function (a) { return a.id === id ? Object.assign({}, a, { status: 'Acknowledged' }) : a; });
+    this.setState({ alerts: alerts });
+  }
+  doMonitor() { this.setState({ actionMessage: { kind: 'success', text: this.state.selectedId + ' added to active monitoring list.' } }); }
+  doIncident() { this.setState({ actionMessage: { kind: 'success', text: 'Incident INC-' + (4000 + Math.floor(Math.random() * 90)) + ' created and logged for ' + this.state.selectedId + '.' } }); }
+  doDismiss() { this.setState({ actionMessage: { kind: 'success', text: 'Alert for ' + this.state.selectedId + ' dismissed and recorded.' } }); }
+  doRequest() { this.setState({ actionMessage: { kind: 'denied', text: 'Permission denied: identifying details require an Authorized Data Request. Your Operations Lead role cannot view them directly.' } }); }
+  formatClock(total) {
+    var h = Math.floor(total / 3600) % 24, m = Math.floor((total % 3600) / 60), s = total % 60;
+    var ap = h >= 12 ? 'PM' : 'AM'; var h12 = h % 12; if (h12 === 0) h12 = 12;
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    return h12 + ':' + pad(m) + ':' + pad(s) + ' ' + ap;
+  }
+  renderVals() {
+    var self = this;
+    var colorFor = { normal: '#33BE7D', warning: '#E4A73C', critical: '#E1484F' };
+    var drones = this.drones.map(function (d) {
+      var color = colorFor[d.alertLevel];
+      var selected = d.id === self.state.selectedId;
+      return Object.assign({}, d, {
+        color: color,
+        ring: d.status === 'Unidentified' ? '#FFFFFF' : color,
+        ringWidth: d.status === 'Unidentified' ? 1.5 : 0,
+        ringDash: d.status === 'Unidentified' ? '2 2' : '0',
+        selected: selected,
+        rowBg: selected ? 'var(--navy-800)' : 'transparent',
+        markerTransform: 'translate(' + d.x + ',' + d.y + ') rotate(' + d.heading + ')',
+        pick: function () { self.select(d.id); }
+      });
+    });
+    var sdRaw = drones.filter(function (d) { return d.id === self.state.selectedId; })[0] || drones[0];
+    var statusColors = {
+      Registered: { bg: 'rgba(51,190,125,0.14)', color: '#33BE7D' },
+      Unidentified: { bg: 'rgba(225,72,79,0.14)', color: '#E1484F' },
+      'Authorized Emergency': { bg: 'rgba(47,196,222,0.14)', color: '#2FC4DE' }
+    };
+    var sc = statusColors[sdRaw.status] || statusColors.Registered;
+    var sd = Object.assign({}, sdRaw, {
+      statusBg: sc.bg, statusColor: sc.color,
+      signalColor: sdRaw.signal === 'Weak' ? '#E4A73C' : sdRaw.signal === 'Lost' ? '#E1484F' : '#EDF1F7',
+      riskColor: sdRaw.riskScore >= 70 ? '#E1484F' : sdRaw.riskScore >= 40 ? '#E4A73C' : '#33BE7D',
+      dismissDisabled: sdRaw.alertLevel === 'normal'
+    });
+    var alerts = this.state.alerts.map(function (a) {
+      var sev = a.severity === 'Critical' ? { bg: 'rgba(225,72,79,0.16)', color: '#E1484F' } : { bg: 'rgba(228,167,60,0.16)', color: '#E4A73C' };
+      return Object.assign({}, a, {
+        bg: sev.bg, color: sev.color,
+        ackLabel: a.status === 'Acknowledged' ? 'Acked' : 'Acknowledge',
+        ackDisabled: a.status === 'Acknowledged',
+        focus: function () { self.select(a.droneId); },
+        ack: function (e) { if (e && e.stopPropagation) e.stopPropagation(); self.ackAlert(a.id); }
+      });
+    });
+    var ranges = ['LIVE', '1H', '6H', '24H'].map(function (r) {
+      return { label: r, cls: self.state.timeRange === r ? 'active' : '', pick: function () { self.pickRange(r); } };
+    });
+    var z = this.state.zoom;
+    var w = 1000 / z, h = 640 / z, x0 = (1000 - w) / 2, y0 = (640 - h) / 2;
+    var selRoute = sdRaw.route || [];
+    return {
+      clock: this.formatClock(this.state.simSeconds),
+      drones: drones,
+      sd: sd,
+      alerts: alerts,
+      timeRanges: ranges,
+      viewBox: x0.toFixed(1) + ' ' + y0.toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1),
+      zoomLabel: 'x' + z.toFixed(2),
+      zoomIn: this.zoomIn, zoomOut: this.zoomOut,
+      geoOpacity: this.state.layerGeo ? 1 : 0,
+      droneOpacity: this.state.layerDrones ? 1 : 0,
+      pathOpacity: this.state.layerPaths ? 0.9 : 0,
+      hasRoute: selRoute.length > 1 && this.state.layerPaths,
+      routePoints: selRoute.map(function (p) { return p[0] + ',' + p[1]; }).join(' '),
+      selectedColor: sd.color,
+      layerDrones: this.state.layerDrones, layerGeo: this.state.layerGeo, layerPaths: this.state.layerPaths,
+      toggleDrones: this.toggleDrones, toggleGeo: this.toggleGeo, togglePaths: this.togglePaths,
+      alertsExpanded: this.state.alertsExpanded, alertsChevron: this.state.alertsExpanded ? '▾' : '▸', toggleAlerts: this.toggleAlerts,
+      fleetExpanded: this.state.fleetExpanded, fleetChevron: this.state.fleetExpanded ? '▾' : '▸', toggleFleet: this.toggleFleet,
+      playing: this.state.playing, notPlaying: !this.state.playing, togglePlay: this.togglePlay,
+      playLabel: this.state.playing ? 'Pause' : 'Play',
+      playbackLabel: this.state.playing ? 'LIVE - streaming detections' : 'REPLAY - ' + this.state.timeRange,
+      statusDotColor: this.state.playing ? '#33BE7D' : '#E4A73C',
+      statusDotCls: this.state.playing ? 'pulse' : '',
+      hasActionMessage: !!this.state.actionMessage,
+      actionMessage: this.state.actionMessage ? {
+        text: this.state.actionMessage.text,
+        bg: this.state.actionMessage.kind === 'denied' ? 'rgba(225,72,79,0.12)' : 'rgba(51,190,125,0.12)',
+        color: this.state.actionMessage.kind === 'denied' ? '#E1484F' : '#33BE7D',
+        border: this.state.actionMessage.kind === 'denied' ? '#E1484F' : '#33BE7D'
+      } : { text: '', bg: '', color: '', border: '' },
+      doMonitor: this.doMonitor, doIncident: this.doIncident, doDismiss: this.doDismiss, doRequest: this.doRequest
+    };
+  }
+}
+DC.mount(Component);
+</script>
+</body>
+</html>
