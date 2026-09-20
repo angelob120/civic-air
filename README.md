@@ -49,6 +49,12 @@ camel cased attributes and for table tags. It renders by building a fresh tree a
 morphing it onto the live one, so the Command Center's one second clock does not
 cost focus, scroll position, or a selected row.
 
+`public/motion.css` is the motion layer. The export carries almost no animation,
+so entry, hover, focus and the marching geofence dashes are added on top, keyed
+entirely off the classes the export already emits so a regenerated page keeps
+them. Nothing in it animates layout, and the whole file switches off under
+`prefers-reduced-motion`.
+
 `server.mjs` is a static file server on `node:http`. Routes are clean paths rather
 than `.html` so a link copied out of the address bar reads well in a demo. Paths
 outside `public/` are refused, and `/healthz` answers the platform health check.

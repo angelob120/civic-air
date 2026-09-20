@@ -4,10 +4,12 @@
   "private": true,
   "description": "Civic Air prototype: accountable low-altitude drone coordination for cities.",
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node server.mjs",
     "dev": "node server.mjs",
-    "build": "node build.mjs ../Design.html"
+    "regenerate": "node build.mjs"
   }
 }

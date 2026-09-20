@@ -112,6 +112,7 @@ function template({ title, helmet, body, logic }) {
 <meta name="description" content="Civic Air is a prototype for accountable low-altitude drone coordination in cities. All data shown is simulated.">
 <title>${title}</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/motion.css">
 ${helmet.trim()}
 </head>
 <body>

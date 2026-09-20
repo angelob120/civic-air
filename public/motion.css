@@ -1,0 +1,166 @@
+/*
+ * Motion layer for Civic Air.
+ *
+ * The exported screens carry only two animations, so everything below is added
+ * on top rather than taken from the export. It is kept in one file, addressed
+ * entirely through the classes the export already emits, so regenerating the
+ * pages from a new export never drops it.
+ *
+ * Two rules it follows. Nothing here moves layout: every animation is opacity,
+ * transform, filter or stroke, so a slow frame cannot reflow a dashboard someone
+ * is reading. And the whole file is switched off under prefers-reduced-motion,
+ * which matters more than usual for a screen full of blinking alerts.
+ */
+
+@keyframes ca-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ca-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ca-march {
+  to { stroke-dashoffset: -100; }
+}
+
+@keyframes ca-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes ca-beacon {
+  0% { transform: scale(1); opacity: 0.85; }
+  70% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes ca-sweep {
+  from { transform: translateX(-30%); }
+  to { transform: translateX(130%); }
+}
+
+/* Screen entry. The root fades as one piece and the panels inside arrive just
+   behind it, which reads as the dashboard loading rather than six cards racing. */
+#dc-root { animation: ca-fade 0.35s ease-out both; }
+
+#dc-root .card,
+#dc-root .stat {
+  animation: ca-rise 0.42s cubic-bezier(0.22, 0.75, 0.3, 1) both;
+}
+
+/* A short stagger across the first few panels only. Past that the delay would be
+   long enough to look like the page is still loading. */
+#dc-root .card:nth-of-type(1) { animation-delay: 0.02s; }
+#dc-root .card:nth-of-type(2) { animation-delay: 0.06s; }
+#dc-root .card:nth-of-type(3) { animation-delay: 0.10s; }
+#dc-root .card:nth-of-type(4) { animation-delay: 0.14s; }
+
+/* Rows arrive the same way, so a filter change on Flight History shows its new
+   result set rather than swapping it silently. */
+#dc-root .row,
+#dc-root tbody tr {
+  animation: ca-rise 0.3s ease-out both;
+}
+
+/* Hover and press. Transitions only, so nothing animates on first paint. */
+.card,
+.row,
+.row-hover,
+.btn,
+.icnbtn,
+.navlink,
+.chip,
+.filterchip,
+.segbtn,
+.tab,
+.field input,
+.field select,
+.field textarea {
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s cubic-bezier(0.22, 0.75, 0.3, 1);
+}
+
+.row:hover,
+.row-hover:hover { transform: translateX(2px); }
+
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+
+.btn-primary:hover { box-shadow: 0 6px 20px rgba(47, 196, 222, 0.28); }
+
+.icnbtn:hover { transform: scale(1.06); }
+.navlink:hover { transform: translateX(2px); }
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 196, 222, 0.18);
+}
+
+/* The map. Dashed geofences march slowly, which is the one cue that separates a
+   live picture from a screenshot of one. */
+#dc-root svg [stroke-dasharray] {
+  animation: ca-march 6s linear infinite;
+}
+
+/* The selected drone's track marches against the geofences so the two do not
+   read as the same object. */
+#dc-root svg polyline[stroke-dasharray] {
+  animation-duration: 2.2s;
+  animation-direction: reverse;
+}
+
+/* The selection ring the export already pulses gets a second, wider beacon. */
+#dc-root svg .pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Drone markers lift slightly under the cursor. transform-box keeps the scale
+   about the marker itself rather than the SVG origin, which would fling it. */
+#dc-root svg g[transform] polygon {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter 0.2s ease, transform 0.2s cubic-bezier(0.22, 0.75, 0.3, 1);
+}
+
+#dc-root svg g[transform]:hover polygon {
+  transform: scale(1.25);
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+/* Status and severity. A critical chip breathes; a warning one does not, so the
+   motion still means something when several are on screen at once. */
+.chip[style*="225,72,79"],
+.filterchip[style*="225,72,79"] {
+  animation: ca-breathe 2s ease-in-out infinite;
+}
+
+/* The live indicator dot. */
+.pulse,
+.stepdot {
+  will-change: opacity, transform;
+}
+
+/* A scanning highlight across the top of the map panel while the feed is live.
+   It is decorative and sits behind everything, so it cannot swallow a click. */
+.scroll { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
